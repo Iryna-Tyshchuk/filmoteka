@@ -1,2 +1,19 @@
 @import './common';
-@import './example';
+@import './reset';
+@import './utils/mixins';
+@import './utils/vars';
+
+@import './components/container';
+@import './components/button';
+@import './components/section';
+@import './components/reusable-classes';
+
+@import './layout/header';
+@import './layout/loader';
+@import './layout/body';
+@import './layout/filmcard';
+@import './layout/mylibrary';
+@import './layout/pagination';
+@import './layout/modal';
+@import './layout/modalcreators';
+@import './layout/footer';
