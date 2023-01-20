@@ -8,7 +8,16 @@ export class FilmsApi {
     constructor() {
         this.page = 1;
         this.query = null;
+        this._setupGenresObject();
+        
     }
+    _setupGenresObject() {
+        this.fetchGenres().then(({ data }) => {
+        const genresInfo = data.genres;
+        const genresList = data.genres;
+        this.genresObject = genresInfo.reduce((acum, { id, name }) => ({ ...acum, [id]: name }), {});            
+    })
+    } 
 
     fetchTrendingFilms() {
     const searchParams = {
