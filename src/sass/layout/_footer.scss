@@ -1,9 +1,4 @@
-p {
-  padding: 0;
-  margin: 0;
-}
-
-.container {
+.container_footer{
   margin-left: auto;
   margin-right: auto;
   padding-top: 0;
@@ -14,6 +9,11 @@ p {
     padding-left: 10px;
     padding-right: 10px;
     width: 35px;
+  }
+  .team-modal-link{
+    cursor: pointer;
+    text-decoration-line: underline;
+    text-decoration-skip-ink: none;
   }
 
   @media screen and (min-width: 320px) {
@@ -35,7 +35,7 @@ p {
   }
 }
 
-footer {
+.footer {
   background-color: rgb(247, 247, 247);
 }
 
