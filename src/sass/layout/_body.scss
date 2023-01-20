@@ -47,31 +47,3 @@
 .card-container {
   display: flex;
 }
-
-.films__list {
-  display: flex;
-  gap: 30px;
-  flex-wrap: wrap;
-}
-
-.film__list-element {
-  width: 100%;
-  &:hover,
-  &:focus {
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
-      1px 4px 6px rgba(0, 0, 0, 0.16);
-  }
-  @include tablet {
-    width: calc((100% - 30px) / 2);
-    gap: 32px;
-  }
-  @include desktop {
-    width: calc((100% - 60px) / 3);
-    column-gap: 16px;
-    row-gap: 32px;
-  }
-}
-
-.film__list-img {
-  border-radius: 5px;
-}

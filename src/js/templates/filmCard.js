@@ -12,8 +12,8 @@ export const createFilmCards = films => {
           film.poster_path
         }" alt="${film.original_title}" width='395'>
    			<div class="film__description">
-   				<h2>${film.original_title}</h2>
-	   			<p class="film__description--more">${film.genre_ids} | ${getYear(
+   				<h2 class='film__title'>${film.original_title}</h2>
+	   			<p class="film__title about">${film.genre_ids} | ${getYear(
           film.release_date
         )} | ${film.vote_average}</p>
    			</div>
