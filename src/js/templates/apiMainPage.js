@@ -3,7 +3,7 @@
 import { FilmsApi } from '../api';
 import { createFilmCards } from './filmCard';
 
-const filmsApi = new FilmsApi();
+export const filmsApi = new FilmsApi();
 
 const formEl = document.querySelector('.search-form');
 const buttonEl = document.querySelector('.search-form__button');

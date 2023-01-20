@@ -56,15 +56,17 @@ export class FilmsApi {
         
     }
 
-    getInfoByOneFilm() {
-        // return fetch(`https://api.themoviedb.org/3/movie/${this.filmId}?api_key=${FilmsApi.API_KEY}`)
-        return fetch(`https://api.themoviedb.org/3/movie/343611?api_key=${FilmsApi.API_KEY}`)
+
+
+    getInfoByOneFilm(id) {
+        return fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${FilmsApi.API_KEY}`)
             .then(response => {
                 // console.log(response.json());
                 return response.json();
             })
             .catch(error => {
-                console.log(error);
-            })
+            console.log(error);
+        })
     }
+
 }

@@ -1,12 +1,63 @@
-.film__description {
-	font-weight: 500;
-	font-size: 20px;
-	line-height: 1.2;
-	color: #000;
-	text-transform: uppercase;
+.films {
+  padding-top: 20px;
+  padding-bottom: 40px;
+
+  @include tablet {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
 }
 
-.film__description--more {
-	color: #FF6B08;
-	text-transform: none;
+.films__list {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.film__list-element {
+  width: 100%;
+  &:hover,
+  &:focus {
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
+      1px 4px 6px rgba(0, 0, 0, 0.16);
+  }
+  @include tablet {
+    width: calc((100% - 30px) / 2);
+    gap: 32px;
+  }
+  @include desktop {
+    width: calc((100% - 60px) / 3);
+    column-gap: 16px;
+    row-gap: 32px;
+  }
+}
+
+.film__list-img {
+  border-radius: 5px;
+}
+
+.film__title {
+	margin-top: 8px;
+	font-family: 'Roboto';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.17;
+  color: #000;
+  text-transform: uppercase;
+
+  @include tablet {
+  line-height: 1.33;
+  }
+
+  @include desktop {
+	margin-top: 12px;
+	font-size: 20px;
+	line-height: 1.2;
+  }
+}
+
+.film__title.about {
+	margin-top: 0;
+  color: #ff6b08;
+  text-transform: none;
 }
