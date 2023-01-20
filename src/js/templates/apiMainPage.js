@@ -11,19 +11,45 @@ const divEl = document.querySelector('.films__list');
 
 formEl.addEventListener('submit', onSearchFormSubmit);
 
-filmsApi
-  .fetchTrendingFilms()
-  .then(({ data }) => {
-    createFilmCards(data.results);
-  })
-  .catch(err => {
-    console.log(err);
-  });
+loadPopular();
+
+async function loadPopular() {
+
+  try {
+
+    const popularMovies = await filmsApi.fetchTrendingFilms().then(({ data }) => data.results);
+    const genres = await filmsApi.fetchGenres().then(({ data }) => data.genres);
+
+    createFilmCards(popularMovies, genres);
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function loadQuery() {
+
+  try {
+    const genres = await filmsApi.fetchGenres().then(({ data }) => data.genres);
+    const queryMovies = await filmsApi.fetchFilmsByQuery().then(({ data }) => {
+
+      if (!data.results.length) {
+        alert('nothing gets');
+        return;
+      }
+      return data.results})
+      .finally((buttonEl.disabled = false));
+    
+    createFilmCards(queryMovies, genres);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 function onSearchFormSubmit(event) {
   event.preventDefault();
-
-  divEl.innerHTML = '';
+  
   buttonEl.disabled = true;
 
   filmsApi.query = event.target.elements[0].value.trim();
@@ -32,25 +58,26 @@ function onSearchFormSubmit(event) {
   if (!filmsApi.query) {
     return;
   }
-
-  filmsApi
-    .fetchFilmsByQuery()
-    .then(({ data }) => {
-      if (!data.results.length) {
-        alert('nothing gets');
-        event.target.reset();
-        divEl.innerHTML = '';
-        return;
-      }
-
-      createFilmCards(data.results);
-    })
-    .catch(err => {
-      console.log(err);
-    })
-    .finally((buttonEl.disabled = false));
+  divEl.innerHTML = '';
+  loadQuery();
 }
 
 export function getYear(stringDate) {
   return stringDate.split('-')[0];
+}
+
+
+export function getGenresName(allGenres, genreIds) {
+
+  const genresName = allGenres.reduce((acc, genre) => {
+
+    if (genreIds.includes(genre.id)) {
+
+      return [...acc, genre.name];
+    }
+
+    return acc;
+  }, []);
+
+  return genresName.length > 2 ? genresName.slice(0, 2) : genresName;
 }

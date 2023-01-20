@@ -1,8 +1,11 @@
 'use strict';
 
 import { getYear } from './apiMainPage';
+import { getGenresName } from './apiMainPage';
+
 const divEl = document.querySelector('.films__list');
-export const createFilmCards = films => {
+
+export const createFilmCards = (films, genres)=> {
   const filmsMarkup = films
     .map(
       film =>
@@ -13,9 +16,11 @@ export const createFilmCards = films => {
         }" alt="${film.original_title}" width='395'>
    			<div class="film__description">
    				<h2>${film.original_title}</h2>
-	   			<p class="film__description--more">${film.genre_ids} | ${getYear(
+	   			<p class="film__description--more">${getGenresName(genres, film.genre_ids).join(
+            ', '
+          )} | ${getYear(
           film.release_date
-        )} | ${film.vote_average}</p>
+        )} | ${Number(film.vote_average).toFixed(1)}</p>
    			</div>
 			</li>
       `
