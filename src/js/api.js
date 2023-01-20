@@ -57,4 +57,16 @@ export class FilmsApi {
     }
 
 
+
+    getInfoByOneFilm(id) {
+        return fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${FilmsApi.API_KEY}`)
+            .then(response => {
+                // console.log(response.json());
+                return response.json();
+            })
+            .catch(error => {
+            console.log(error);
+        })
+    }
+
 }
