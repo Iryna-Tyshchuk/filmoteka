@@ -1,7 +1,13 @@
+'use strict';
+
 const buttomOpenModal = document.querySelector('button[data-modal-open]');
 const modalBackdrop = document.querySelector('.backdrop__modal-film');
 const buttonCloseModal = document.querySelector('button[data-modal-close]');
 // console.log(modalBackdrop);
+console.log(buttomOpenModal);
+console.log(buttonCloseModal);
+console.log(modalBackdrop);
+
 
 buttomOpenModal.addEventListener('click', onOpenModalFilmInfo);
 function onOpenModalFilmInfo() {
@@ -12,9 +18,11 @@ function onOpenModalFilmInfo() {
     buttonCloseModal.addEventListener('click', onCloseModalbyCross);
 }
 
-function onCloseModalbyCross() {
+function onCloseModalbyCross(event) {
     modalBackdrop.classList.add('is-hidden');
-    clearBackdropListeners()
+    clearBackdropListeners();
+    console.log(event.target);
+
 }
 
 function onKeyClick(event){
@@ -22,14 +30,18 @@ function onKeyClick(event){
         return;
     }
     modalBackdrop.classList.add('is-hidden');
-    clearBackdropListeners()
+    clearBackdropListeners();
+    console.log(event.target);
 }
 
 function onCloseModalbyBackdrop(event) {
     if (event.target === modalBackdrop) {
         modalBackdrop.classList.add('is-hidden');
+        clearBackdropListeners();
     }
-    clearBackdropListeners()
+    
+    console.log(event.target);
+
 }
 
 function clearBackdropListeners() {
