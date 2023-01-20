@@ -4,3 +4,4 @@ import localStorageService from './js/localstorage.js';
 
 import './js/templates/modal-film-card';
 import './js/templates/class';
+import apiMainPage from './js/templates/apiMainPage';
