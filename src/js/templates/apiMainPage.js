@@ -1,6 +1,7 @@
 'use strict';
 
 import { FilmsApi } from '../api';
+import { createFilmCards } from './filmCard';
 
 const filmsApi = new FilmsApi();
 
@@ -12,8 +13,7 @@ formEl.addEventListener('submit', onSearchFormSubmit);
 filmsApi
     .fetchTrendingFilms()
     .then(({ data }) => {
-        console.log(data.results);
-        renderGalleryFilms(data.results)
+        createFilmCards(data.results);
     })
     .catch(err => {
     console.log(err);
@@ -43,7 +43,8 @@ function onSearchFormSubmit(event) {
                 return;
             }
 
-            renderGalleryFilms(data.results);
+            //renderGalleryFilms(data.results);
+            createFilmCards(data.results);
         })
         .catch(err => {
             console.log(err);
@@ -52,23 +53,25 @@ function onSearchFormSubmit(event) {
 }
 
 
-function renderGalleryFilms(films) {
-    const markup = films.map((film) => {
-        return `
-            <div>
-                <img src="https://image.tmdb.org/t/p/w500/${film.poster_path}" alt="${film.original_title}" width='395'  />
-                <div>
-                    <b class='card-title'>${film.original_title}</b>
-                    <div class='card-container'>
-                    <p class='card-genre'>${film.genre_ids}</p><span class='card-year'>${getYear(film.release_date)}</span><span class='card-average'>${film.vote_average}</span>
-                    </div>
-                </div>
-            </div>
-        `;
-    }).join('');
-    document.body.insertAdjacentHTML("beforeend", markup);
-}
+// function renderGalleryFilms(films) {
+//     const markup = films.map((film) => {
+//         return `
+//             <div>
+//                 <img src="https://image.tmdb.org/t/p/w500/${film.poster_path}" alt="${film.original_title}" width='395'  />
+//                 <div>
+//                     <b class='card-title'>${film.original_title}</b>
+//                     <div class='card-container'>
+//                     <p class='card-genre'>${film.genre_ids}</p><span class='card-year'>${getYear(film.release_date)}</span><span class='card-average'>${film.vote_average}</span>
+//                     </div>
+//                 </div>
+//             </div>
+//         `;
+//     }).join('');
+//     document.body.insertAdjacentHTML("beforeend", markup);
+// }
 
-function getYear(stringDate) {
+export function getYear(stringDate) {
     return stringDate.split('-')[0];
 }
+
+
