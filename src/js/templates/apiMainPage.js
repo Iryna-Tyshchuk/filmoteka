@@ -8,6 +8,7 @@ export const filmsApi = new FilmsApi();
 const formEl = document.querySelector('.search-form');
 const buttonEl = document.querySelector('.search-form__button');
 const divEl = document.querySelector('.films__list');
+const inputWarning = document.querySelector('.input-warning');
 
 formEl.addEventListener('submit', onSearchFormSubmit);
 
@@ -34,9 +35,10 @@ async function loadQuery() {
     const queryMovies = await filmsApi.fetchFilmsByQuery().then(({ data }) => {
 
       if (!data.results.length) {
-        alert('nothing gets');
+        inputWarning.classList.remove('is-none');
         return;
       }
+      divEl.innerHTML = '';
       return data.results})
       .finally((buttonEl.disabled = false));
     
@@ -51,6 +53,7 @@ function onSearchFormSubmit(event) {
   event.preventDefault();
   
   buttonEl.disabled = true;
+  inputWarning.classList.add('is-none');
 
   filmsApi.query = event.target.elements[0].value.trim();
   filmsApi.page = 1;
@@ -58,8 +61,9 @@ function onSearchFormSubmit(event) {
   if (!filmsApi.query) {
     return;
   }
-  divEl.innerHTML = '';
+
   loadQuery();
+  event.currentTarget.reset();
 }
 
 export function getYear(stringDate) {
