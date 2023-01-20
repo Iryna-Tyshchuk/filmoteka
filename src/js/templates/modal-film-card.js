@@ -1,27 +1,38 @@
 'use strict';
-import { FilmsApi } from './class.js'
+import { filmsApi } from './apiMainPage';
+import { divEl } from './filmCard';
 
-const buttonOpenModal = document.querySelector('button[data-modal-open]');
+
 const modalBackdrop = document.querySelector('.backdrop__modal-film');
 const buttonCloseModal = document.querySelector('button[data-modal-close]');
-// console.log(modalBackdrop);
 const modalFilmInfo = document.querySelector('.modal-film__info');
 
-buttonOpenModal.addEventListener('click', onOpenModalFilmInfo);
-function onOpenModalFilmInfo() {
+
+divEl.addEventListener('click', onOpenModalFilmInfo);
+function onOpenModalFilmInfo(event) {
+    // console.log(event.target);
+    if (!event.target.closest("[data-id]")) {
+        return;
+    }
+
+    // console.log(event.target.parentNode);
+    const currentFilmId = event.target.parentNode.dataset.id;
+
+    addFilmInfo(currentFilmId);
+
     modalBackdrop.classList.remove('is-hidden');
 
     window.addEventListener('click', onCloseModalbyBackdrop);
     window.addEventListener('keydown', onKeyClick);
     buttonCloseModal.addEventListener('click', onCloseModalbyCross);
 
-    aboutFiltInfo();
 }
 
-function onCloseModalbyCross(event) {
+function onCloseModalbyCross() {
     modalBackdrop.classList.add('is-hidden');
     clearBackdropListeners();
     // console.log(event.target);
+    modalFilmInfo.innerHTML = "";
 }
 
 function onKeyClick(event){
@@ -30,12 +41,14 @@ function onKeyClick(event){
     }
     modalBackdrop.classList.add('is-hidden');
     clearBackdropListeners();
+    modalFilmInfo.innerHTML = "";
 }
 
 function onCloseModalbyBackdrop(event) {
     if (event.target === modalBackdrop) {
         modalBackdrop.classList.add('is-hidden');
         clearBackdropListeners();
+        modalFilmInfo.innerHTML = "";
     }
 }
 
@@ -46,18 +59,14 @@ function clearBackdropListeners() {
 }
 
 
-function aboutFiltInfo() {
-    const filmsApi = new FilmsApi;
-    // console.log(filmsApi);
-
-    const film = filmsApi.getInfoByOneFilm()
+function addFilmInfo(filmId) {
+    return filmsApi.getInfoByOneFilm(filmId)
         .then(data => {
-            console.log(data);
+            // console.log(data);
             modalFilmInfo.innerHTML = createFilmCard(data);
     })
     // console.log(film);
 }
-
 
 function createFilmCard(obj) {
     const { title, vote_average, vote_count, popularity, original_title, overview, genres, poster_path } = obj;
@@ -79,5 +88,4 @@ function createFilmCard(obj) {
             <p class="film-card__overview">${overview}</p>
         </div>
     `
-    // console.log(cardsFilmsArr);
 };

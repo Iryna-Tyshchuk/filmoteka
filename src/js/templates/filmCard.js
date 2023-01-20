@@ -1,13 +1,13 @@
-'use strict';
+ 'use strict';
 
 import { getYear } from './apiMainPage';
-const divEl = document.querySelector('.films__list');
+export const divEl = document.querySelector('.films__list');
 export const createFilmCards = films => {
   const filmsMarkup = films
     .map(
       film =>
         `
-			<li class="film__list-element">
+			<li class="film__list-element" data-id=${film.id}>
 				<img class="film__list-img" src="https://image.tmdb.org/t/p/w500/${
           film.poster_path
         }" alt="${film.original_title}" width='395'>
