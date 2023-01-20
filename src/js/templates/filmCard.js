@@ -1,20 +1,26 @@
 'use strict';
 
 import { getYear } from './apiMainPage';
-
+const divEl = document.querySelector('.films__list');
 export const createFilmCards = films => {
-	const filmsMarkup = films.map(
-    film =>
-      `
-			<li>
-				<img src="https://image.tmdb.org/t/p/w500/${film.poster_path}" alt="${film.original_title}" width='395'>
+  const filmsMarkup = films
+    .map(
+      film =>
+        `
+			<li class="film__list-element">
+				<img class="film__list-img" src="https://image.tmdb.org/t/p/w500/${
+          film.poster_path
+        }" alt="${film.original_title}" width='395'>
    			<div class="film__description">
    				<h2>${film.original_title}</h2>
-	   			<p class="film__description--more">${film.genre_ids} | ${getYear(film.release_date)} | ${film.vote_average}</p>
+	   			<p class="film__description--more">${film.genre_ids} | ${getYear(
+          film.release_date
+        )} | ${film.vote_average}</p>
    			</div>
 			</li>
       `
-  ).join('');
+    )
+    .join('');
 
-    document.body.insertAdjacentHTML("beforeend", filmsMarkup);
+  divEl.insertAdjacentHTML('beforeend', filmsMarkup);
 };
