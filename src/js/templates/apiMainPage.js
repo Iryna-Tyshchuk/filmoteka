@@ -7,6 +7,8 @@ const filmsApi = new FilmsApi();
 
 const formEl = document.querySelector('.search-form');
 const buttonEl = document.querySelector('.search-form__button');
+const divEl = document.querySelector('.container');
+
 
 formEl.addEventListener('submit', onSearchFormSubmit);
 
@@ -22,7 +24,7 @@ filmsApi
 function onSearchFormSubmit(event) {
     event.preventDefault();
 
-    document.body.innerHTML = '';
+    divEl.innerHTML = '';
     buttonEl.disabled = true;
 
     filmsApi.query = event.target.elements[0].value.trim();
@@ -39,11 +41,10 @@ function onSearchFormSubmit(event) {
             if (!data.results.length) {
                 alert('nothing gets');
                 event.target.reset();
-                document.body.innerHTML = '';
+                divEl.innerHTML = '';
                 return;
             }
 
-            //renderGalleryFilms(data.results);
             createFilmCards(data.results);
         })
         .catch(err => {
@@ -52,23 +53,6 @@ function onSearchFormSubmit(event) {
         .finally(buttonEl.disabled = false);
 }
 
-
-// function renderGalleryFilms(films) {
-//     const markup = films.map((film) => {
-//         return `
-//             <div>
-//                 <img src="https://image.tmdb.org/t/p/w500/${film.poster_path}" alt="${film.original_title}" width='395'  />
-//                 <div>
-//                     <b class='card-title'>${film.original_title}</b>
-//                     <div class='card-container'>
-//                     <p class='card-genre'>${film.genre_ids}</p><span class='card-year'>${getYear(film.release_date)}</span><span class='card-average'>${film.vote_average}</span>
-//                     </div>
-//                 </div>
-//             </div>
-//         `;
-//     }).join('');
-//     document.body.insertAdjacentHTML("beforeend", markup);
-// }
 
 export function getYear(stringDate) {
     return stringDate.split('-')[0];
