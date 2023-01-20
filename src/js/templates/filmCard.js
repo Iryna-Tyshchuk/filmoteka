@@ -1,6 +1,8 @@
 'use strict';
 
-export default const createFilmCards = films => {
+import { getYear } from './apiMainPage';
+
+export const createFilmCards = films => {
 	const filmsMarkup = films.map(
     film =>
       `
