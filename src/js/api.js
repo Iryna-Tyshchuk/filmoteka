@@ -22,7 +22,7 @@ export class FilmsApi {
     fetchTrendingFilms() {
     const searchParams = {
     params: {
-        _page: this.page,
+        page: this.page,
         api_key: FilmsApi.API_KEY,
     },
     };
@@ -34,7 +34,7 @@ export class FilmsApi {
     fetchFilmsByQuery() {
     const searchParams = {
     params: {
-        _page: this.page,
+        page: this.page,
         api_key: FilmsApi.API_KEY,
         query: this.query,
     },
@@ -47,7 +47,7 @@ export class FilmsApi {
     fetchGenres() {
         const searchParams = {
         params: {
-        _page: this.page,
+        page: this.page,
         api_key: FilmsApi.API_KEY,
     },
     };
