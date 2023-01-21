@@ -9,49 +9,48 @@ const formEl = document.querySelector('.search-form');
 const buttonEl = document.querySelector('.search-form__button');
 const divEl = document.querySelector('.films__list');
 const inputWarning = document.querySelector('.input-warning');
-
+// if (formEl) {
 formEl.addEventListener('submit', onSearchFormSubmit);
-
+// }
 loadPopular();
 
 async function loadPopular() {
-
   try {
-
-    const popularMovies = await filmsApi.fetchTrendingFilms().then(({ data }) => data.results);
+    const popularMovies = await filmsApi
+      .fetchTrendingFilms()
+      .then(({ data }) => data.results);
     const genres = await filmsApi.fetchGenres().then(({ data }) => data.genres);
 
     createFilmCards(popularMovies, genres);
-
   } catch (error) {
     console.log(error);
   }
 }
 
 async function loadQuery() {
-
   try {
     const genres = await filmsApi.fetchGenres().then(({ data }) => data.genres);
-    const queryMovies = await filmsApi.fetchFilmsByQuery().then(({ data }) => {
-
-      if (!data.results.length) {
-        inputWarning.classList.remove('is-none');
-        return;
-      }
-      divEl.innerHTML = '';
-      return data.results})
+    const queryMovies = await filmsApi
+      .fetchFilmsByQuery()
+      .then(({ data }) => {
+        if (!data.results.length) {
+          inputWarning.classList.remove('is-none');
+          return;
+        }
+        divEl.innerHTML = '';
+        return data.results;
+      })
       .finally((buttonEl.disabled = false));
-    
+
     createFilmCards(queryMovies, genres);
   } catch (error) {
     console.log(error);
   }
 }
 
-
 function onSearchFormSubmit(event) {
   event.preventDefault();
-  
+
   buttonEl.disabled = true;
   inputWarning.classList.add('is-none');
 
@@ -70,13 +69,9 @@ export function getYear(stringDate) {
   return stringDate.split('-')[0];
 }
 
-
 export function getGenresName(allGenres, genreIds) {
-
   const genresName = allGenres.reduce((acc, genre) => {
-
     if (genreIds.includes(genre.id)) {
-
       return [...acc, genre.name];
     }
 
