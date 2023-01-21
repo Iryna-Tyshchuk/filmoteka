@@ -9,10 +9,12 @@ const formEl = document.querySelector('.search-form');
 const buttonEl = document.querySelector('.search-form__button');
 const divEl = document.querySelector('.films__list');
 const inputWarning = document.querySelector('.input-warning');
-// if (formEl) {
-formEl.addEventListener('submit', onSearchFormSubmit);
-// }
-loadPopular();
+try {
+  formEl.addEventListener('submit', onSearchFormSubmit);
+  loadPopular();
+} catch (error) {
+  console.log(error);
+}
 
 async function loadPopular() {
   try {
