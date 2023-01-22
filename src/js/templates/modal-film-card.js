@@ -1,59 +1,67 @@
 'use strict';
 import { filmsApi } from './apiMainPage';
-import { divEl } from './filmCard';
+// import { divEl } from './filmCard';
+import localStorageService from '../localstorage.js';
+import { Notify } from 'notiflix';
 
-
+const body = document.querySelector('body');
 const modalBackdrop = document.querySelector('.backdrop__modal-film');
 const buttonCloseModal = document.querySelector('button[data-modal-close]');
-const modalFilmInfo = document.querySelector('.modal-film__info');
-const addToWatchedBtn = document.querySelector('button[data-modal-watched]');
-const addToQueueBtn = document.querySelector('button[data-modal-queue]');
+const modalFilmInfo = document.querySelector('.modal-film__info-card');
+// const addToWatchedBtn = document.querySelector('button[data-modal-watched]');
+// const addToQueueBtn = document.querySelector('button[data-modal-queue]');
+const { save } = localStorageService;
 
-
-divEl.addEventListener('click', onOpenModalFilmInfo);
+body.addEventListener('click', onOpenModalFilmInfo);
 function onOpenModalFilmInfo(event) {
+    
     // console.log(event.target);
     if (!event.target.closest("[data-id]")) {
         return;
     }
 
     // console.log(event.target.parentNode);
+
     const currentFilmId = event.target.parentNode.dataset.id;
     
     addFilmInfo(currentFilmId);
 
     modalBackdrop.classList.remove('is-hidden');
+    body.classList.add('no-scroll');
 
     window.addEventListener('click', onCloseModalbyBackdrop);
     window.addEventListener('keydown', onKeyClick);
     buttonCloseModal.addEventListener('click', onCloseModalbyCross);
 
-    addToWatchedBtn.addEventListener('click', onAddToWatchedToLocalStorage);
-    addToQueueBtn.addEventListener('click', onAddToQueueToLocalStorage);
+    // addToWatchedBtn.addEventListener('click', onAddToWatchedToLocalStorage);
+    // addToQueueBtn.addEventListener('click', onAddToQueueToLocalStorage);
+    modalFilmInfo.addEventListener('click', onAddToWatchedToLocalStorage);
+    modalFilmInfo.addEventListener('click', onAddToQueueToLocalStorage);
 }
 
 function onCloseModalbyCross() {
-    modalBackdrop.classList.add('is-hidden');
-    clearBackdropListeners();
+    modalSettings();
     // console.log(event.target);
-    modalFilmInfo.innerHTML = "";
 }
 
 function onKeyClick(event){
-    if(event.code !== 'Escape') {
+    if (event.code !== 'Escape') {
         return;
-    }
-    modalBackdrop.classList.add('is-hidden');
-    clearBackdropListeners();
-    modalFilmInfo.innerHTML = "";
+    };
+    modalSettings();
 }
 
 function onCloseModalbyBackdrop(event) {
     if (event.target === modalBackdrop) {
-        modalBackdrop.classList.add('is-hidden');
-        clearBackdropListeners();
-        modalFilmInfo.innerHTML = "";
+        modalSettings();
     }
+}
+
+function modalSettings() {
+    modalBackdrop.classList.add('is-hidden');
+    body.classList.remove('no-scroll');
+    clearBackdropListeners();
+    modalFilmInfo.innerHTML = "";
 }
 
 function clearBackdropListeners() {
@@ -67,13 +75,16 @@ let dataObj = null;
 function addFilmInfo(filmId) {
     // console.log(filmId);
     return filmsApi.getInfoByOneFilm(filmId)
-        .then(data => {
+        .then(({ data }) => {
             dataObj = data;
-            console.log(dataObj);
-
-            modalFilmInfo.innerHTML = createFilmCard(data);
-    })
-}
+            // console.log(dataObj);
+            // modalFilmInfo.innerHTML = createFilmCard(data);
+            modalFilmInfo.insertAdjacentHTML('afterbegin', createFilmCard(data));
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
 
 //create film card
 function createFilmCard(obj) {
@@ -83,36 +94,43 @@ function createFilmCard(obj) {
     // console.log(genres);
     // console.log(genresArr.join(", "));
     return `
-        <div class="film-card">
             <div class="film-card__picture-container">
                 <img class="film-card__picture" src="https://image.tmdb.org/t/p/w300${poster_path}" alt="${title}">
             </div>
-            <h2 class="film-card__title">${title}</h2>
-            <ul class="film-card__info-list">
-                <li class="film-card__info-el">
-                    <p class="film-card__info-item">Vote / Votes</p>
-                    <p class="film-card__info-item--value">
-                            <span class="info-item__highlight-orange">${vote_average.toFixed(1)}</span> / 
-                            <span class="info-item__highlight-grey">${vote_count.toFixed()}</span>
-                    </p>
-                </li>
-                <li class="film-card__info-el">
-                    <p class="film-card__info-item">Popularity</p>
-                    <p class="film-card__info-item--value">${popularity.toFixed(1)}</p>
-                </li>
-                <li class="film-card__info-el">
-                    <p class="film-card__info-item">Original Title</p>
-                    <p class="film-card__info-item--value">${original_title.toUpperCase()}</p>
-                </li>
-                <li class="film-card__info-el">
-                <p class="film-card__info-item">Genre</p>
-                <p class="film-card__info-item--value">${genresArr.join(", ")}</p>
-                </li>
-            </ul>
-            
-            <p class="film-card__overview-about">About</p>
-            <p class="film-card__overview">${overview}</p>
-        </div>
+            <div class="film-card__about-film-container">
+                <div class="film-card__about-film-block">
+                    <h2 class="film-card__title">${title}</h2>
+                    <ul class="film-card__info-list">
+                        <li class="film-card__info-el">
+                            <p class="film-card__info-item">Vote / Votes</p>
+                            <p class="film-card__info-item--value">
+                                    <span class="info-item__highlight-orange">${vote_average.toFixed(1)}</span> / 
+                                    <span class="info-item__highlight-grey">${vote_count.toFixed()}</span>
+                            </p>
+                        </li>
+                        <li class="film-card__info-el">
+                            <p class="film-card__info-item">Popularity</p>
+                            <p class="film-card__info-item--value">${popularity.toFixed(1)}</p>
+                        </li>
+                        <li class="film-card__info-el">
+                            <p class="film-card__info-item">Original Title</p>
+                            <p class="film-card__info-item--value">${original_title.toUpperCase()}</p>
+                        </li>
+                        <li class="film-card__info-el">
+                        <p class="film-card__info-item">Genre</p>
+                        <p class="film-card__info-item--value">${genresArr.join(", ")}</p>
+                        </li>
+                    </ul>
+                    <p class="film-card__overview-about">About</p>
+                    <p class="film-card__overview">${overview}</p>
+                </div>
+
+                <div class="modal-film__buttons-block">
+                    <button type="submit" class="modal-film__btn-watched" data-modal-watched>Add to watched</button>
+                    <button type="submit" class="modal-film__btn-queue" data-modal-queue>Add to queue</button>
+                </div>
+
+            </div>
     `
 };
 
@@ -124,12 +142,17 @@ if (localStorage.getItem('user-watched-list')) {
         // console.log(userWatchedList);
     }
     catch (error) {
-        console.log(error)
+        console.log(error);
     }
 };
+
 function onAddToWatchedToLocalStorage(event) {
     event.preventDefault();
     // const userWatchedList = dataObj;
+    
+    if (!event.target.closest("[data-modal-watched]")) {
+        return;
+    }
     
     let userWatchedFilm = {
         id: dataObj.id,
@@ -140,16 +163,15 @@ function onAddToWatchedToLocalStorage(event) {
         release_date: dataObj.release_date,
     };
     
-    userWatchedList.forEach(el => {
-        if (el.id === dataObj.id) {
-            alert('This film have already add to watched list');
-            return;
-        }
-    });
-    
-    userWatchedList.push(userWatchedFilm);
-    localStorage.setItem("user-watched-list", JSON.stringify(userWatchedList));
-    
+    if (userWatchedList.every(el => el.id !== dataObj.id)) {
+        // console.log(userWatchedList.every(el => el.id === dataObj.id));
+        userWatchedList.push(userWatchedFilm);
+        save("user-watched-list", userWatchedList);
+        // localStorage.setItem("user-watched-list", JSON.stringify(userWatchedList));
+    } else {
+        // alert('This film have already add to watched list');
+        Notify.failure('This film have already add to watched list');
+    }
     // console.log(userWatchedList);
     // console.log(JSON.stringify(userWatchedList));
 }
@@ -169,6 +191,9 @@ if (localStorage.getItem('user-queue-list')) {
 function onAddToQueueToLocalStorage(event) {
     event.preventDefault();
     // const userQueueList = dataObj;
+    if (!event.target.closest("[data-modal-queue]")) {
+        return;
+    }
     
     let userQueueFilm = {
         id: dataObj.id,
@@ -179,15 +204,15 @@ function onAddToQueueToLocalStorage(event) {
         release_date: dataObj.release_date,
     };
 
-    userQueueList.forEach(el => {
-        if (el.id === dataObj.id) {
-            alert('This film have already add to queue list');
-            return;
-        }
-    });
-    
-    userQueueList.push(userQueueFilm);
-    localStorage.setItem("user-queue-list", JSON.stringify(userQueueList));
+    if (userQueueList.every(el => el.id !== dataObj.id)) {
+        // console.log(userQueueList.every(el => el.id === dataObj.id));
+        userQueueList.push(userQueueFilm);
+        save("user-queue-list", userQueueList);
+        // localStorage.setItem("user-queue-list", JSON.stringify(userQueueList));
+    } else {
+        // alert('This film have already add to queue list');
+        Notify.failure('This film have already add to queue list');
+    }
     
     // console.log(userQueueList);
     // console.log(JSON.stringify(userQueueList));
