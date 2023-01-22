@@ -1,7 +1,7 @@
 'use strict';
 
 import Pagination from 'tui-pagination';
-// import 'tui-pagination/dist/tui-pagination.css';
+
 import { FilmsApi } from '../api';
 import { createFilmCards } from './filmCard';
 
@@ -82,7 +82,10 @@ async function loadQuery() {
       })
       .finally((buttonEl.disabled = false));
     filmsApi.page = 1;
-    createFilmCards(queryMovies, genres);
+    if (!queryMovies) { loadPopular();  return } else {
+      createFilmCards(queryMovies, genres);
+    }
+    
   } catch (error) {
     console.log(error);
   }
