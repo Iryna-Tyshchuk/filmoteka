@@ -82,7 +82,7 @@ async function loadQuery() {
       })
       .finally((buttonEl.disabled = false));
     filmsApi.page = 1;
-    if (!queryMovies) { loadPopular();  return } else {
+    if (!queryMovies) { filmsApi.query = ''; return } else {
       createFilmCards(queryMovies, genres);
     }
     
