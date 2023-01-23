@@ -18,6 +18,7 @@
 
 .film__list-element {
   width: 100%;
+  transition: all250ms linear;
   cursor: pointer;
   &:hover,
   &:focus {
