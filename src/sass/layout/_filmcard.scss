@@ -15,6 +15,7 @@
 }
 
 .film__list-element {
+	cursor: url(../images/pointer.png), auto;
   width: 100%;
   &:hover,
   &:focus {
