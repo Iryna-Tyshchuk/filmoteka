@@ -35,7 +35,7 @@ function createWatchedList() {
    			<div class="film__description">
    				<h2 class='film__title'>${film.title}</h2>
 	   			<p class="film__title about">
-          
+           ${renderGenres(film.genres).join(', ')}
           | ${getYear(film.release_date)} | ${Number(film.vote_average).toFixed(
           1
         )}</p>
@@ -63,7 +63,7 @@ function createQueueList() {
    			<div class="film__description">
    				<h2 class='film__title'>${film.title}</h2>
 	   			<p class="film__title about">
-          
+          ${renderGenres(film.genres).join(', ')}
           | ${getYear(film.release_date)} | ${Number(film.vote_average).toFixed(
           1
         )}</p>
@@ -74,4 +74,9 @@ function createQueueList() {
     .join('');
   console.log(filmsMarkup);
   queueList.insertAdjacentHTML('beforeend', filmsMarkup);
+}
+
+function renderGenres(array) {
+  const genresNames = array.map(el => el.name);
+  return genresNames.length > 2 ? genresNames.slice(0, 2) : genresNames;
 }
