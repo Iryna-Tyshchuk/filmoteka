@@ -12,8 +12,6 @@ const buttonEl = document.querySelector('.search-form__button');
 const divEl = document.querySelector('.films__list');
 const inputWarning = document.querySelector('.input-warning');
 
-
-
 const options = {
   totalItems: 1000,
   itemsPerPage: 20,
@@ -57,11 +55,9 @@ async function loadPopular() {
       .then(({ data }) => { pagination.setTotalItems(data.total_pages); return data.results });
     const genres = await filmsApi.fetchGenres().then(({ data }) => data.genres);
     filmsApi.page = 1;
-    console.log(pagination._getLastPage())
-    const buttonFirstEl = document.querySelector('.tui-page-btn.tui-prev');
-    const buttonLastEl = document.querySelector('.tui-page-btn.tui-next');
-    buttonLastEl.textContent = `${pagination._getLastPage()}`;
-    buttonFirstEl.textContent = `1`;    
+
+    document.querySelector('.tui-page-btn.tui-next').textContent = `${pagination._getLastPage()}`;
+    document.querySelector('.tui-page-btn.tui-prev').textContent = `1`;        
     createFilmCards(popularMovies, genres);
   } catch (error) {
     console.log(error);
@@ -84,14 +80,15 @@ async function loadQuery() {
         return data.results;
       })
       .finally((buttonEl.disabled = false));
+    
     filmsApi.page = 1;
     if (!queryMovies) { filmsApi.query = ''; return } else {
       createFilmCards(queryMovies, genres);
     }
-    const buttonFirstEl = document.querySelector('.tui-page-btn.tui-prev');
-    const buttonLastEl = document.querySelector('.tui-page-btn.tui-next');
-    buttonLastEl.textContent = `${pagination._getLastPage()}`;
-    buttonFirstEl.textContent = `1`;  
+    
+    document.querySelector('.tui-page-btn.tui-next').textContent = `${pagination._getLastPage()}`;
+    document.querySelector('.tui-page-btn.tui-prev').textContent = `1`;  
+
   } catch (error) {
     console.log(error);
   }
@@ -134,6 +131,15 @@ export function getGenresName(allGenres, genreIds) {
 pagination.on('afterMove', ({ page }) => {
   divEl.innerHTML = '';
   filmsApi.page = page;
+  console.log(pagination._getLastPage())
+  if (page === 2 || page === 3) {
+      document.querySelector('.tui-page-btn.tui-prev').classList.add('is-none')
+  } else { document.querySelector('.tui-page-btn.tui-prev').classList.remove('is-none') };
+
+  if (page === Number(pagination._getLastPage() - 1) || page === Number(pagination._getLastPage()) - 2) {
+    document.querySelector('.tui-page-btn.tui-next').classList.add('is-none')
+  } else { document.querySelector('.tui-page-btn.tui-next').classList.remove('is-none') };
+
   if (!filmsApi.query) {
     loadPopular()
   } else { loadQuery()}
