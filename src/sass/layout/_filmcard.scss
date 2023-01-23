@@ -15,12 +15,15 @@
 }
 
 .film__list-element {
+	cursor: url(../images/pointer.png), auto;
   width: 100%;
-  transition: all250ms linear;
+  transition: all 250ms linear;
   &:hover,
   &:focus {
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
-      1px 4px 6px rgba(0, 0, 0, 0.16);
+	    transform: scale(1.03);
+    padding: 5px;
+    box-shadow: 0px 5px 15px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
   }
   @include tablet {
     width: calc((100% - 30px) / 2);
@@ -37,9 +40,13 @@
   border-radius: 5px;
 }
 
+.film__description {
+	padding: 5px;
+}
+
 .film__title {
-	margin-top: 8px;
-	font-family: 'Roboto';
+  margin-top: 3px;
+  font-family: 'Roboto';
   font-weight: 500;
   font-size: 12px;
   line-height: 1.17;
@@ -47,18 +54,29 @@
   text-transform: uppercase;
 
   @include tablet {
-  line-height: 1.33;
+    line-height: 1.33;
   }
 
   @include desktop {
-	margin-top: 12px;
-	font-size: 20px;
-	line-height: 1.2;
+    margin-top: 12px;
+    font-size: 20px;
+    line-height: 1.2;
   }
 }
 
 .film__title.about {
-	margin-top: 0;
+  margin-top: 0;
   color: #ff6b08;
   text-transform: none;
+}
+
+.film__title.about .vote {
+	padding: 3px 12px;
+  width: 40px;
+  height: 20px;
+  font-size: 12px;
+  line-height: 1.17px;
+  color: #fff;
+  background-color: #ff6b08;
+  border-radius: 5px;
 }

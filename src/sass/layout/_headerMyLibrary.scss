@@ -44,6 +44,7 @@
   text-transform: uppercase;
   border: 1px solid #fff;
   background: transparent;
+  transition: box-shadow $durationTiming, border $durationTiming, background $durationTiming;
 
   @include tablet {
     width: 152px;
