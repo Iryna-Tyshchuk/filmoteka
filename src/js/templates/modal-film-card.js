@@ -49,6 +49,7 @@ function onKeyClick(event){
         return;
     };
     modalSettings();
+    
 }
 
 function onCloseModalbyBackdrop(event) {
