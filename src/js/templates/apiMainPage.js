@@ -11,8 +11,8 @@ const formEl = document.querySelector('.search-form');
 const buttonEl = document.querySelector('.search-form__button');
 const divEl = document.querySelector('.films__list');
 const inputWarning = document.querySelector('.input-warning');
-const buttonFirst = document.querySelector('.tui-first');
-console.dir(buttonFirst)
+
+
 
 const options = {
   totalItems: 1000,
@@ -58,7 +58,10 @@ async function loadPopular() {
     const genres = await filmsApi.fetchGenres().then(({ data }) => data.genres);
     filmsApi.page = 1;
     console.log(pagination._getLastPage())
-    // buttonFirst.textContent = 1;
+    const buttonFirstEl = document.querySelector('.tui-page-btn.tui-prev');
+    const buttonLastEl = document.querySelector('.tui-page-btn.tui-next');
+    buttonLastEl.textContent = `${pagination._getLastPage()}`;
+    buttonFirstEl.textContent = `1`;    
     createFilmCards(popularMovies, genres);
   } catch (error) {
     console.log(error);
@@ -85,7 +88,10 @@ async function loadQuery() {
     if (!queryMovies) { filmsApi.query = ''; return } else {
       createFilmCards(queryMovies, genres);
     }
-    
+    const buttonFirstEl = document.querySelector('.tui-page-btn.tui-prev');
+    const buttonLastEl = document.querySelector('.tui-page-btn.tui-next');
+    buttonLastEl.textContent = `${pagination._getLastPage()}`;
+    buttonFirstEl.textContent = `1`;  
   } catch (error) {
     console.log(error);
   }
