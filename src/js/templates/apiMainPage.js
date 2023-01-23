@@ -57,7 +57,8 @@ async function loadPopular() {
     filmsApi.page = 1;
 
     document.querySelector('.tui-page-btn.tui-next').textContent = `${pagination._getLastPage()}`;
-    document.querySelector('.tui-page-btn.tui-prev').textContent = `1`;        
+    document.querySelector('.tui-page-btn.tui-prev').textContent = `1`; 
+    
     createFilmCards(popularMovies, genres);
   } catch (error) {
     console.log(error);
@@ -75,7 +76,7 @@ async function loadQuery() {
           return;
         }
         pagination.setTotalItems(data.total_pages);
-        console.log(pagination._getLastPage())
+        
         divEl.innerHTML = '';
         return data.results;
       })
