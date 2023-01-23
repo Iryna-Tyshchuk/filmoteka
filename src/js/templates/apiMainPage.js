@@ -128,17 +128,20 @@ export function getGenresName(allGenres, genreIds) {
   return genresName.length > 2 ? genresName.slice(0, 2) : genresName;
 }
 
-pagination.on('afterMove', ({ page }) => {
+  pagination.on('afterMove', ({ page }) => {
   divEl.innerHTML = '';
   filmsApi.page = page;
-  console.log(pagination._getLastPage())
+  
+  const prevButtonEl = document.querySelector('.tui-page-btn.tui-prev');
+  const nextButtonEl = document.querySelector('.tui-page-btn.tui-next');
+
   if (page === 2 || page === 3) {
-      document.querySelector('.tui-page-btn.tui-prev').classList.add('is-none')
-  } else { document.querySelector('.tui-page-btn.tui-prev').classList.remove('is-none') };
+    prevButtonEl.classList.add('is-none');
+  } else { prevButtonEl.classList.remove('is-none') };
 
   if (page === Number(pagination._getLastPage() - 1) || page === Number(pagination._getLastPage()) - 2) {
-    document.querySelector('.tui-page-btn.tui-next').classList.add('is-none')
-  } else { document.querySelector('.tui-page-btn.tui-next').classList.remove('is-none') };
+    nextButtonEl.classList.add('is-none')
+  } else {nextButtonEl.classList.remove('is-none') };
 
   if (!filmsApi.query) {
     loadPopular()
