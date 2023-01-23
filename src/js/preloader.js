@@ -22,14 +22,14 @@ toggler.addEventListener('input', () => {
   }, 500);
 });
 
-let onClickfilmCard = document.querySelector('.film__list-element');
+// let onClickfilmCard = document.querySelector('.film__list-element');
 
-onClickfilmCard.addEventListener('click', () => {
-  setTimeout(() => {
-    document.body.classList.add('disappear');
-    setTimeout(() => {
-      document.body.classList.add('loaded');
-      document.body.classList.remove('disappear');
-    }, 500);
-  }, 500);
-});
+// onClickfilmCard.addEventListener('click', () => {
+//   setTimeout(() => {
+//     document.body.classList.add('disappear');
+//     setTimeout(() => {
+//       document.body.classList.add('loaded');
+//       document.body.classList.remove('disappear');
+//     }, 500);
+//   }, 500);
+// });
