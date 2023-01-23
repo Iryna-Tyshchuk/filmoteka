@@ -21,11 +21,11 @@ function renderSlidesFilms() {
 function createUpcomigFilmCard(filmsArr) {
   return filmsArr
     .map(film => {
-      return `<div class="swiper-slide box">
+      return `<li class="swiper-slide box" data-id=${film.id}>
         <div class="box-img">
           <img src="${FilmsApi.IMAGE_PATH + film.poster_path}" alt="" />
         </div>
-      </div> `;
+      </li> `;
     })
     .join('');
 }
