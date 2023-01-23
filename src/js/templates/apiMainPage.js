@@ -87,9 +87,16 @@ async function loadQuery() {
       createFilmCards(queryMovies, genres);
     }
     
+
     document.querySelector('.tui-page-btn.tui-next').textContent = `${pagination._getLastPage()}`;
     document.querySelector('.tui-page-btn.tui-prev').textContent = `1`;  
+    
+    if (Number(pagination._getLastPage()) === 1) {
+      pagination._options.visiblePages = 1;
+      pagination._paginate();
+      return;
 
+    } else { pagination._options.visiblePages = 5 };
   } catch (error) {
     console.log(error);
   }
@@ -102,6 +109,7 @@ function onSearchFormSubmit(event) {
   buttonEl.disabled = true;
   inputWarning.classList.add('is-none');
 
+  
   filmsApi.query = event.target.elements[0].value.trim();
   filmsApi.page = 1;
 
@@ -129,18 +137,19 @@ export function getGenresName(allGenres, genreIds) {
   return genresName.length > 2 ? genresName.slice(0, 2) : genresName;
 }
 
+
   pagination.on('afterMove', ({ page }) => {
   divEl.innerHTML = '';
   filmsApi.page = page;
   
   const prevButtonEl = document.querySelector('.tui-page-btn.tui-prev');
   const nextButtonEl = document.querySelector('.tui-page-btn.tui-next');
-
+    
   if (page === 2 || page === 3) {
     prevButtonEl.classList.add('is-none');
   } else { prevButtonEl.classList.remove('is-none') };
 
-  if (page === Number(pagination._getLastPage() - 1) || page === Number(pagination._getLastPage()) - 2) {
+  if (page === Number(pagination._getLastPage()) - 1 || page === Number(pagination._getLastPage()) - 2) {
     nextButtonEl.classList.add('is-none')
   } else {nextButtonEl.classList.remove('is-none') };
 
@@ -149,5 +158,3 @@ export function getGenresName(allGenres, genreIds) {
   } else { loadQuery()}
   });
 
-
-  
