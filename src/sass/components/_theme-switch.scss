@@ -10,7 +10,7 @@ body {
   background-color: #1f1e1e;
 
   color: #ffffff;
-}
+
   & .film__list-element:hover {
     transform: scale(1.03);
     padding: 5px;
@@ -29,5 +29,5 @@ body {
   & .page__footer {
     color: #ffffff;
   }
-
+}
 }
