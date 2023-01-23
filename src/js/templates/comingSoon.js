@@ -4,7 +4,7 @@ import { FilmsApi } from '../api';
 import { createFilmCards } from './filmCard';
 
 const filmsApi = new FilmsApi();
-const comingContainer = document.querySelector('.coming-container');
+//const comingContainer = document.querySelector('.coming-container');
 
 renderSlidesFilms();
 
@@ -21,43 +21,11 @@ function renderSlidesFilms() {
 function createUpcomigFilmCard(filmsArr) {
   return filmsArr
     .map(film => {
-      return `<li class="swiper-slide box" data-id=${film.id}>
-        <div class="box-img">
-          <img src="${FilmsApi.IMAGE_PATH + film.poster_path}" alt="" />
-        </div>
-      </li> `;
+      return `
+        <li data-id=${film.id}>
+          <img class="box-img" src="${FilmsApi.IMAGE_PATH + film.poster_path}" alt="" />
+        </li> `;
     })
     .join('');
 }
 
-const comingSwiper = new Swiper('.coming-container', {
-  spaceBetween: 20,
-  loop: true,
-  autoplay: {
-    delay: 2500,
-    disableOnInteraction: false,
-  },
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
-  keyboard: {
-    enable: true,
-    onlyInViewport: true,
-  },
-  centeredSlides: true,
-  breakpoints: {
-    968: {
-      slidesPerView: 7,
-    },
-    768: {
-      slidesPerView: 5,
-    },
-    568: {
-      slidesPerView: 3,
-    },
-    0: {
-      slidesPerView: 2,
-    },
-  },
-});
