@@ -4,33 +4,36 @@ import localStorageService from '../localstorage';
 import { getYear } from './apiMainPage';
 import { getGenresName } from './apiMainPage';
 import createFilmCards from './filmCard';
-
 const btnWatched = document.querySelector('.js-btn-watched');
 const btnQueue = document.querySelector('.js-btn-queue');
 const watchedList = document.querySelector('.watched__list');
 const queueList = document.querySelector('.queue__list');
 const addToWatchedBtn = document.querySelector('button[data-modal-watched]');
 const addToQueueBtn = document.querySelector('button[data-modal-queue]');
-
 const STORAGE_WATCHED = 'user-watched-list';
 const STORAGE_QUEUE = 'user-queue-list';
 
 const savedWathed = localStorageService.load(STORAGE_WATCHED);
-console.log(savedWathed);
-const savedQueue = localStorageService.load(STORAGE_QUEUE);
-if (savedWathed) {
-  btnWatched.classList.add('btn-header-active');
-  watchedList.insertAdjacentHTML(
-    'beforeend',
-    createMarkapFromStoradge(savedWathed)
-  );
-} else {
-  const info = `<span class='vote'>You don't add any film to Wathed</span>`;
-  watchedList.innerHTML = info;
-}
 
-btnWatched.addEventListener('click', createWatchedList);
-btnQueue.addEventListener('click', createQueueList);
+const savedQueue = localStorageService.load(STORAGE_QUEUE);
+
+try {
+  if (savedWathed) {
+    btnWatched.classList.add('btn-header-active');
+    watchedList.insertAdjacentHTML(
+      'beforeend',
+      createMarkapFromStoradge(savedWathed)
+    );
+  } else {
+    const info = `<span class='vote'>You don't add any film to Wathed</span>`;
+    watchedList.innerHTML = info;
+  }
+
+  btnWatched.addEventListener('click', createWatchedList);
+  btnQueue.addEventListener('click', createQueueList);
+} catch (error) {
+  console.log('Помилка з MyLibrary');
+}
 
 function createWatchedList() {
   queueList.innerHTML = '';
