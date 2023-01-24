@@ -2,6 +2,12 @@
 
 import Pagination from 'tui-pagination';
 
+const watchedListEl = document.querySelector('.watched__list');
+const queueListEl = document.querySelector('.queue__list');
+
+console.log(watchedListEl.children)
+console.log(queueListEl.children)
+console.log(watchedListEl.contains('li'))
 const options = {
   totalItems: 1000,
   itemsPerPage: 20,
@@ -30,3 +36,5 @@ const options = {
 };
 
 const pagination = new Pagination('pagination', options);
+
+// if ()
