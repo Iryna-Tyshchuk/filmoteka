@@ -8,8 +8,8 @@ const body = document.querySelector('body');
 const modalBackdrop = document.querySelector('.backdrop__modal-film');
 const buttonCloseModal = document.querySelector('button[data-modal-close]');
 const modalFilmInfo = document.querySelector('.modal-film__info-card');
-// const addToWatchedBtn = document.querySelector('button[data-modal-watched]');
-// const addToQueueBtn = document.querySelector('button[data-modal-queue]');
+const addToWatchedBtn = document.querySelector('button[data-modal-watched]');
+const addToQueueBtn = document.querySelector('button[data-modal-queue]');
 const { save } = localStorageService;
 
 body.addEventListener('click', onOpenModalFilmInfo);
@@ -33,10 +33,12 @@ function onOpenModalFilmInfo(event) {
     window.addEventListener('keydown', onKeyClick);
     buttonCloseModal.addEventListener('click', onCloseModalbyCross);
 
-    // addToWatchedBtn.addEventListener('click', onAddToWatchedToLocalStorage);
-    // addToQueueBtn.addEventListener('click', onAddToQueueToLocalStorage);
-    modalFilmInfo.addEventListener('click', onAddToWatchedToLocalStorage);
-    modalFilmInfo.addEventListener('click', onAddToQueueToLocalStorage);
+    addToWatchedBtn.addEventListener('click', onAddToWatchedToLocalStorage);
+    addToQueueBtn.addEventListener('click', onAddToQueueToLocalStorage);
+    // modalFilmInfo.addEventListener('click', onAddToWatchedToLocalStorage);
+    // modalFilmInfo.addEventListener('click', onAddToQueueToLocalStorage);
+
+    checkLocalStorageById(currentFilmId);
 }
 
 function onCloseModalbyCross() {
@@ -150,7 +152,6 @@ if (localStorage.getItem('user-watched-list')) {
 function onAddToWatchedToLocalStorage(event) {
     event.preventDefault();
     // const userWatchedList = dataObj;
-    
     if (!event.target.closest("[data-modal-watched]")) {
         return;
     }
@@ -163,15 +164,30 @@ function onAddToWatchedToLocalStorage(event) {
         poster_path: dataObj.poster_path,
         release_date: dataObj.release_date,
     };
-    
+    if (event.target.hasAttribute("data-watched-delete")) {
+        const idxForDelete = userWatchedList.findIndex(el => el.id === dataObj.id);
+        // console.log(idxForDelete);
+        const deletedArr = userWatchedList.splice(idxForDelete, 1);
+        // console.log(deletedArr);
+        // console.log(userWatchedList);
+        save("user-watched-list", userWatchedList);
+        addToWatchedBtn.textContent = 'Add to watched';
+        delete addToWatchedBtn.dataset.watchedDelete;
+        if (userWatchedList.length === 0) {
+            localStorage.removeItem("user-watched-list");
+        }
+        return;
+    }
+
     if (userWatchedList.every(el => el.id !== dataObj.id)) {
         // console.log(userWatchedList.every(el => el.id === dataObj.id));
         userWatchedList.push(userWatchedFilm);
+        addToWatchedBtn.textContent = 'Delete from watched';
+        addToWatchedBtn.dataset.watchedDelete = '';
         save("user-watched-list", userWatchedList);
         // localStorage.setItem("user-watched-list", JSON.stringify(userWatchedList));
     } else {
-        // alert('This film have already add to watched list');
-        Notify.failure('This film have already add to watched list');
+        // Notify.failure('This film have already add to watched list');
     }
     // console.log(userWatchedList);
     // console.log(JSON.stringify(userWatchedList));
@@ -205,16 +221,54 @@ function onAddToQueueToLocalStorage(event) {
         release_date: dataObj.release_date,
     };
 
+    if (event.target.hasAttribute("data-queue-delete")) {
+        const idxForDelete = userQueueList.findIndex(el => el.id === dataObj.id);
+        // console.log(idxForDelete);
+        const deletedArr = userQueueList.splice(idxForDelete, 1);
+        // console.log(deletedArr);
+        // console.log(userQueueList);
+        save("user-queue-list", userQueueList);
+        addToQueueBtn.textContent = 'Add to queue';
+        delete addToQueueBtn.dataset.queueDelete;
+        if (userQueueList.length === 0) {
+            localStorage.removeItem("user-queue-list");
+        }
+        return;
+    }
+
     if (userQueueList.every(el => el.id !== dataObj.id)) {
         // console.log(userQueueList.every(el => el.id === dataObj.id));
         userQueueList.push(userQueueFilm);
+        addToQueueBtn.textContent = 'Delete from watched';
+        addToQueueBtn.dataset.queueDelete = '';
         save("user-queue-list", userQueueList);
         // localStorage.setItem("user-queue-list", JSON.stringify(userQueueList));
     } else {
-        // alert('This film have already add to queue list');
-        Notify.failure('This film have already add to queue list');
+        // Notify.failure('This film have already add to queue list');
     }
     
     // console.log(userQueueList);
     // console.log(JSON.stringify(userQueueList));
+}
+
+function checkLocalStorageById(id) {
+    // console.log(userWatchedList.find(el => el.id === Number(id)));
+    if (userWatchedList.find(el => el.id === Number(id)) === undefined) {
+        addToWatchedBtn.textContent = 'Add to watched';
+        delete addToWatchedBtn.dataset.watchedDelete;
+    }
+    else {
+        addToWatchedBtn.textContent = 'Delete from watched';
+        addToWatchedBtn.dataset.watchedDelete = '';
+    }
+    
+    // console.log(userQueueList.find(el => el.id === Number(id)));
+    if (userQueueList.find(el => el.id === Number(id)) === undefined) {
+        addToQueueBtn.textContent = 'Add to queue';
+        delete addToQueueBtn.dataset.queueDelete;
+    }
+    else {
+        addToQueueBtn.textContent = 'Delete from queue';
+        addToQueueBtn.dataset.queueDelete = '';
+    }
 }
