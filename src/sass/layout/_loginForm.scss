@@ -1,0 +1,227 @@
+.backdrop.is-hidden .modal {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.2);
+}
+
+input {
+  outline: none;
+}
+
+.login-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: 490px;
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+}
+
+.login__form {
+  background-color: hsla(244, 16%, 92%, 0.6);
+  border: 2px solid hsla(244, 16%, 92%, 0.75);
+  margin-inline: 1.25rem;
+  row-gap: 1.25rem;
+  backdrop-filter: blur(20px);
+  padding: 2rem;
+  border-radius: 1rem;
+
+  @media screen and (min-width: 768px) {
+    margin-inline: 0;
+  }
+
+  @media screen and (min-width: 1280px) {
+    row-gap: 2rem;
+    padding: 3rem;
+    border-radius: 1.25rem;
+    border: 2.5px solid hsla(244, 16%, 92%, 0.75);
+  }
+}
+
+.login-modal__bnt-close {
+  position: absolute;
+  right: 24px;
+  top: 8px;
+  z-index: 101;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  
+  @media screen and (min-width: 768px) {
+    right: 12px;
+  }
+}
+.login-modal__close-icon {
+  width: 20px;
+  height: 20px;
+
+  @media screen and (min-width: 768px) {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.button-lg {
+  width: 100%;
+  border: none;
+  padding: 14px 2rem;
+  border-radius: 6px;
+  font-size: 0.813rem;
+  font-weight: 600;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  @media screen and (min-width: 1280px) {
+    font-size: 1rem;
+  }
+}
+
+.login__form,
+.login__inputs,
+.login__buttons {
+  display: grid;
+}
+
+.login__title {
+  color: #ff6b08;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.login__title span {
+  color: hsl(244, 12%, 12%);
+}
+
+.login__description {
+  font-size: 0.813rem;
+
+  @media screen and (min-width: 1280px) {
+    font-size: 1rem;
+  }
+}
+
+.login__inputs {
+  row-gap: 0.75rem;
+  margin-bottom: 0.5rem;
+
+  @media screen and (min-width: 1280px) {
+    row-gap: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+.login__label {
+  display: block;
+  color: hsl(244, 12%, 12%);
+  font-size: 0.813rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+
+  @media screen and (min-width: 1280px) {
+    font-size: 1rem;
+  }
+}
+
+.login__input {
+  width: 100%;
+  padding: 14px 12px;
+  border: 2px solid hsl(244, 4%, 36%);
+  border-radius: 6px;
+  background-color: hsla(244, 16%, 92%, 0.6);
+  color: hsl(244, 12%, 12%);
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: border 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  @media screen and (min-width: 1280px) {
+    border: 2.5px solid hsl(244, 4%, 36%);
+    padding: 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+.login__input::placeholder {
+  color: hsl(244, 4%, 36%);
+}
+
+.login__input:focus,
+.login__input:valid {
+  border: 2px solid #ff6b08;
+
+  @media screen and (min-width: 1280px) {
+    border: 2.5px solid #ff6b08;
+  }
+}
+
+.login__box {
+  position: relative;
+}
+
+.login__box .login__input {
+  padding-right: 36px;
+}
+
+.login__buttons {
+  row-gap: 1.25rem;
+}
+
+.login__button {
+  background-color: #ff6b08;
+  color: #fff;
+
+  &:hover {
+    box-shadow: 0 8px 43px #ff6b0199;
+  }
+}
+
+.line {
+  position: relative;
+  text-align: center;
+}
+
+.line::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 1px;
+  width: 40%;
+  transform: translate(0, -50%);
+  background-color: #8b8b8b;
+}
+
+.line::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  height: 1px;
+  width: 40%;
+  transform: translate(0, -50%);
+  background-color: #8b8b8b;
+}
+
+.login__media-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: #1b1b22;
+  // border: 2px solid hsl(244, 4%, 36%);
+  &:hover {
+    box-shadow: 0 8px 43px rgba(0, 0, 0, 0.55);
+  }
+}
+
+img.google-img {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  height: 20px;
+  width: 20px;
+  object-fit: cover;
+  transform: translateY(-50%);
+}
