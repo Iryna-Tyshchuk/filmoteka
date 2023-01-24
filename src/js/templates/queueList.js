@@ -13,8 +13,7 @@ const addToQueueBtn = document.querySelector('button[data-modal-queue]');
 const STORAGE_WATCHED = 'user-watched-list';
 const STORAGE_QUEUE = 'user-queue-list';
 
-const savedWathed = localStorageService.load(STORAGE_WATCHED);
-
+const savedWathed = localStorageService.load(STORAGE_WATCHED); 
 const savedQueue = localStorageService.load(STORAGE_QUEUE);
 
 try {

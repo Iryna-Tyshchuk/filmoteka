@@ -1,17 +1,20 @@
 'use strict';
 
 import Pagination from 'tui-pagination';
+import localStorageService from '../localstorage';
 
 const itemListEl = document.querySelectorAll('.film__list-element');
 const paginationEl = document.querySelector('#pagination');
 const buttonWatchedEl = document.querySelector('.js-btn-watched');
 const buttonQueueEl = document.querySelector('.js-btn-queue');
 
+const savedWathed = localStorageService.load('user-watched-list'); 
+
 const options = {
-  totalItems: 1000,
+  totalItems: `${Number(savedWathed.length)}`,
   itemsPerPage: 20,
   visiblePages: 5,
-  page: 1,
+  page: 1, 
   centerAlign: true,
   firstItemClassName: 'tui-first-child',
   lastItemClassName: 'tui-last-child',
@@ -46,13 +49,11 @@ buttonQueueEl.addEventListener('click', () => {
 });
 
 function paginationLoad() {  
-  if ( !itemListEl.length ) {
+  if ( Number(savedWathed.length) < 20 ) {
     paginationEl.classList.add('is-none');
   } else {
     paginationEl.classList.remove('is-none');
   }
-
-  document.querySelector('.tui-page-btn.tui-next').textContent = `${pagination._getLastPage()}`;
-  document.querySelector('.tui-page-btn.tui-prev').textContent = `1`; 
 }
+
 
