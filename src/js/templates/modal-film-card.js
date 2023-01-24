@@ -10,18 +10,19 @@ const buttonCloseModal = document.querySelector('button[data-modal-close]');
 const modalFilmInfo = document.querySelector('.modal-film__info-card');
 const addToWatchedBtn = document.querySelector('button[data-modal-watched]');
 const addToQueueBtn = document.querySelector('button[data-modal-queue]');
+const filmInfoBlock = document.querySelector('.film-card__film-info-block');
 const { save } = localStorageService;
 
 body.addEventListener('click', onOpenModalFilmInfo);
 function onOpenModalFilmInfo(event) {
-    
     // console.log(event.target);
     if (!event.target.closest("[data-id]")) {
         return;
     }
+    const getElem = event.target.closest("[data-id]");
+    // console.log(getElem);
 
-    // console.log(event.target.parentNode);
-    const currentFilmId = event.target.parentNode.dataset.id;
+    const currentFilmId = getElem.dataset.id;
     
     addFilmInfo(currentFilmId);
 
@@ -34,8 +35,6 @@ function onOpenModalFilmInfo(event) {
 
     addToWatchedBtn.addEventListener('click', onAddToWatchedToLocalStorage);
     addToQueueBtn.addEventListener('click', onAddToQueueToLocalStorage);
-    // modalFilmInfo.addEventListener('click', onAddToWatchedToLocalStorage);
-    // modalFilmInfo.addEventListener('click', onAddToQueueToLocalStorage);
 
     checkLocalStorageById(currentFilmId);
 }
@@ -62,7 +61,8 @@ function modalSettings() {
     modalBackdrop.classList.add('is-hidden');
     body.classList.remove('no-scroll');
     clearBackdropListeners();
-    modalFilmInfo.innerHTML = "";
+    modalFilmInfo.firstElementChild.remove();
+    filmInfoBlock.firstElementChild.remove()
 }
 
 function clearBackdropListeners() {
@@ -79,7 +79,9 @@ function addFilmInfo(filmId) {
         .then(({ data }) => {
             dataObj = data;
             // console.log(dataObj);
-            modalFilmInfo.innerHTML = createFilmCard(data);
+            const [pictureImgContainer, aboutFilmContainer] = createFilmCard(data);
+            modalFilmInfo.insertAdjacentHTML('afterbegin', pictureImgContainer);
+            filmInfoBlock.insertAdjacentHTML('afterbegin', aboutFilmContainer);
         })
         .catch(error => {
             console.log(error);
@@ -91,13 +93,14 @@ function createFilmCard(obj) {
     const { title, vote_average, vote_count, popularity, original_title, overview, genres, poster_path } = obj;
     const genresArr = [];
     genres.map(el => genresArr.push(el.name));
-    // console.log(genres);
-    // console.log(genresArr.join(", "));
-    return `
-            <div class="film-card__picture-container">
-                <img class="film-card__picture" src="https://image.tmdb.org/t/p/w300${poster_path}" alt="${title}">
-            </div>
-            <div class="film-card__about-film-container">
+
+    const pictureImgContainer = `
+        <div class="film-card__picture-container">
+            <img class="film-card__picture" src="https://image.tmdb.org/t/p/w300${poster_path}" alt="${title}">
+        </div>
+    `;
+    const aboutFilmContainer = `
+        <div class="film-card__about-film-container">
                 <div class="film-card__about-film-block">
                     <h2 class="film-card__title">${title}</h2>
                     <ul class="film-card__info-list">
@@ -125,7 +128,9 @@ function createFilmCard(obj) {
                     <p class="film-card__overview">${overview}</p>
                 </div>
             </div>
-    `
+    `;
+    // console.log(aboutFilmContainer);
+    return [pictureImgContainer, aboutFilmContainer];
 };
 
 //add to local storage to watched
