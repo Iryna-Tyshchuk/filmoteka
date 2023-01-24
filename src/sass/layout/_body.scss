@@ -1,3 +1,13 @@
+body {
+  cursor: url(../images/cursor-body.png), auto;
+}
+
+a,
+button,
+label {
+  cursor: url(../images/pointer.png), auto;
+}
+
 .card-title {
   font-family: 'Roboto';
   font-weight: 500;

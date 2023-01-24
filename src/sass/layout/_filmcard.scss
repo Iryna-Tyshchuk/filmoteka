@@ -17,7 +17,7 @@
 }
 
 .film__list-element {
-  border-radius: 5px;
+  cursor: url(../images/pointer.png), auto;
   width: 100%;
   transition: all 250ms linear;
   &:hover,
