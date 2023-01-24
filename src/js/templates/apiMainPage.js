@@ -1,6 +1,7 @@
 'use strict';
 
 import Pagination from 'tui-pagination';
+import Notiflix from 'notiflix';
 
 import { FilmsApi } from '../api';
 import { createFilmCards } from './filmCard';
@@ -50,6 +51,7 @@ try {
 
 async function loadPopular() {
   try {
+    Notiflix.Loading.circle({svgColor: '#ff6b01a1'});
     const popularMovies = await filmsApi
       .fetchTrendingFilms()
       .then(({ data }) => { pagination.setTotalItems(data.total_pages); return data.results });
@@ -60,6 +62,7 @@ async function loadPopular() {
     document.querySelector('.tui-page-btn.tui-prev').textContent = `1`; 
     
     createFilmCards(popularMovies, genres);
+    Notiflix.Loading.remove();
   } catch (error) {
     console.log(error);
   }
@@ -67,6 +70,7 @@ async function loadPopular() {
 
 async function loadQuery() {
   try {
+    Notiflix.Loading.circle({svgColor: '#ff6b01a1'});
     const genres = await filmsApi.fetchGenres().then(({ data }) => data.genres);
     const queryMovies = await filmsApi
       .fetchFilmsByQuery()
@@ -97,6 +101,7 @@ async function loadQuery() {
       return;
 
     } else { pagination._options.visiblePages = 5 };
+    Notiflix.Loading.remove();
   } catch (error) {
     console.log(error);
   }
