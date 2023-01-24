@@ -2,12 +2,11 @@
 
 import Pagination from 'tui-pagination';
 
-const watchedListEl = document.querySelector('.watched__list');
-const queueListEl = document.querySelector('.queue__list');
+const itemListEl = document.querySelectorAll('.film__list-element');
+const paginationEl = document.querySelector('#pagination');
+const buttonWatchedEl = document.querySelector('.js-btn-watched');
+const buttonQueueEl = document.querySelector('.js-btn-queue');
 
-console.log(watchedListEl.children)
-console.log(queueListEl.children)
-console.log(watchedListEl.contains('li'))
 const options = {
   totalItems: 1000,
   itemsPerPage: 20,
@@ -36,5 +35,24 @@ const options = {
 };
 
 const pagination = new Pagination('pagination', options);
+paginationLoad();
 
-// if ()
+buttonWatchedEl.addEventListener('click', () => {
+  paginationLoad();
+});
+
+buttonQueueEl.addEventListener('click', () => {
+  paginationLoad();
+});
+
+function paginationLoad() {  
+  if ( !itemListEl.length ) {
+    paginationEl.classList.add('is-none');
+  } else {
+    paginationEl.classList.remove('is-none');
+  }
+
+  document.querySelector('.tui-page-btn.tui-next').textContent = `${pagination._getLastPage()}`;
+  document.querySelector('.tui-page-btn.tui-prev').textContent = `1`; 
+}
+
