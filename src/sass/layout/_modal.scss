@@ -8,6 +8,7 @@
     height: 100vh;
     // overflow-y: auto;
     padding: 20px;
+    z-index: 20;
     background-color: rgba(0, 0, 0, 0.3);
 }
 
@@ -33,21 +34,25 @@
     // overflow: scroll;
     width: 100%;
     height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
 
     @media screen and (min-width: 320px) {
         max-width: 550px;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(1);
     }
     @media screen and (min-width: 400px) {
         padding: 40px 36px 40px 36px;
     }
 
     @media screen and (min-width: 768px) {
-        max-width: 704px;
-        min-height: 552px;
-        padding: 40px 36px 40px 36px;
+        // max-width: 704px;
+        min-width: 704px;
+        min-height: 400px;
+        // max-height: 552px;
+        height: auto;
+        padding: 40px 72px 40px 36px;
+        align-items: flex-end;
     }
     @media screen and (min-width: 1280px) {
         max-width: 806px;
@@ -55,8 +60,15 @@
         padding: 40px 12px;
     }
 }
-.modal-film__info {
+.modal-film__info-card {
     width: 100%;
+    @media screen and (min-width: 768px) {
+        display: flex;
+        gap: 68px;
+    }
+    @media screen and (min-width: 1280px) {
+        gap: 16px;
+    }
 }
 
 .modal-film__bnt-close {
@@ -69,7 +81,6 @@
     background-color: transparent;
     border: none;
     transition: fill 250ms cubic-bezier(0.4, 0, 0.2, 1);
-
     &:hover,
     &:focus {
         fill: #FF6B01;
@@ -79,12 +90,23 @@
     margin-top: 20px;
     display: flex;
     gap: 20px;
+    justify-content: center;
+    @media screen and (min-width: 768px) {
+        width: 100%;
+        gap: 15px;
+    }
+    @media screen and (min-width: 1280px) {
+        justify-content: flex-start;
+    }
 }
 .modal-film__btn-watched, .modal-film__btn-queue {
     width: 110px;
     height: 44px;
     border-radius: 5px;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 0px;
     // font-weight: 500;
     // font-size: 12px;
     line-height: calc(16/12);
@@ -93,14 +115,13 @@
     @media screen and (min-width: 768px) {
         width: 125px;
     }
-    
     @media screen and (min-width: 1280px) {
         width: 136px;
     }
 }
 
 .modal-film__btn-watched {
-    padding: 6px 27px;
+    // padding: 6px 27px;
     border: none;
     background-color: #FF6B01;
     color: #FFFFFF;
@@ -108,12 +129,13 @@
         transform: scale(1.1);
     }
     @media screen and (min-width: 768px) {
-        padding: 13px 9px;
+        // padding: 13px 9px;
     }
     @media screen and (min-width: 1280px) {
-        padding: 13px 10px;;
+        // padding: 13px 10px;;
     }
 }
+
 .modal-film__btn-queue {
     padding: 8px;
     border: 1px solid #000000;
@@ -124,29 +146,41 @@
     @media screen and (min-width: 768px) {
         padding: 13px 7px;
     }
-    
     @media screen and (min-width: 1280px) {
         padding: 13px 8px;
             
     }
 }
+
 .film-card__picture-container {
     margin: 0 auto;
     min-width: 240px;
     min-height: 360px;
     overflow: hidden;
     border-radius: 5px;
-    // @media screen and (min-width: 500px) {
-    //     width: 300px;
-    //     max-height: 400px;
-    
-    // }
+    @media screen and (min-width: 768px) {
+        width: calc((100% - 68px)/ 2);
+        min-width: 264px;
+        // min-height: 374px;
+        max-height: 374px;
+    }
+    @media screen and (min-width: 1280px) {
+        max-width: 375px;
+        // width: 375px;
+        max-height: 478px;
+    }
 }
+
 .film-card__picture {
-    // object-fit: cover;
     object-fit: contain;
-    
 }
+
+.film-card__about-film-container {
+    @media screen and (min-width: 1280px) {
+        width: 391px;
+    }
+}
+
 .film-card__title {
     margin: 20px 0;
     // font-weight: 500;
@@ -154,18 +188,25 @@
     line-height: calc(23/20);
     color: #000000;
     text-transform: uppercase;
+    @media screen and (min-width: 768px) {
+        margin-top: 0;
+    }
 }
+
 .film-card__general-info {
     margin-bottom: 20px;
 }
+
 .film-card__info-list {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
+
 .film-card__info-el {
     display: flex;
 }
+
 .film-card__info-item {
     width: 40%;
     // font-size: 12px;
@@ -175,6 +216,7 @@
         width: 30%;
     }
 }
+
 .film-card__info-item--value {
     width: 60%;
     // font-size: 12px;
@@ -193,16 +235,19 @@
     text-transform: uppercase;
     color: #000000;
 }
+
 .film-card__overview {
     font-size: 12px;
     line-height: calc(20/12);
     color: #000000;
 }
+
 .info-item__highlight-orange {
     padding: 1px 9px;
     background-color: #FF6B01;
     border-radius: 5px;
 }
+
 .info-item__highlight-grey {
     padding: 1px 4px;
     background-color: #F7F7F7;
