@@ -57,3 +57,14 @@ label {
 .card-container {
   display: flex;
 }
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background-color: #ff6b01a1;
+}
+::-webkit-scrollbar-thumb {
+  background: #ff6b01;
+  border-radius: 5px;
+}
