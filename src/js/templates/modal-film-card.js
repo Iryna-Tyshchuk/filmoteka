@@ -2,6 +2,7 @@
 import { filmsApi } from './apiMainPage';
 // import { divEl } from './filmCard';
 import localStorageService from '../localstorage.js';
+import Notiflix from 'notiflix';
 
 
 const body = document.querySelector('body');
@@ -11,19 +12,18 @@ const modalFilmInfo = document.querySelector('.modal-film__info-card');
 const addToWatchedBtn = document.querySelector('button[data-modal-watched]');
 const addToQueueBtn = document.querySelector('button[data-modal-queue]');
 const filmInfoBlock = document.querySelector('.film-card__film-info-block');
-const { save } = localStorageService;
+const { save, load, remove } = localStorageService;
 
 body.addEventListener('click', onOpenModalFilmInfo);
 function onOpenModalFilmInfo(event) {
     // console.log(event.target);
     if (!event.target.closest("[data-id]")) {
         return;
-    }
-    const getElem = event.target.closest("[data-id]");
+    };
+    const getElemFilm = event.target.closest("[data-id]");
     // console.log(getElem);
 
-    const currentFilmId = getElem.dataset.id;
-    
+    const currentFilmId = getElemFilm.dataset.id;
     addFilmInfo(currentFilmId);
 
     modalBackdrop.classList.remove('is-hidden');
@@ -75,6 +75,9 @@ let dataObj = null;
 
 function addFilmInfo(filmId) {
     // console.log(filmId);
+    Notiflix.Loading.circle({ svgColor: '#ff6b01a1' });
+    addToWatchedBtn.classList.add('is-hidden');
+    addToQueueBtn.classList.add('is-hidden');
     return filmsApi.getInfoByOneFilm(filmId)
         .then(({ data }) => {
             dataObj = data;
@@ -82,6 +85,9 @@ function addFilmInfo(filmId) {
             const [pictureImgContainer, aboutFilmContainer] = createFilmCard(data);
             modalFilmInfo.insertAdjacentHTML('afterbegin', pictureImgContainer);
             filmInfoBlock.insertAdjacentHTML('afterbegin', aboutFilmContainer);
+            Notiflix.Loading.remove();
+            addToWatchedBtn.classList.remove('is-hidden');
+            addToQueueBtn.classList.remove('is-hidden');
         })
         .catch(error => {
             console.log(error);
@@ -135,9 +141,11 @@ function createFilmCard(obj) {
 
 //add to local storage to watched
 let userWatchedList = [];
-if (localStorage.getItem('user-watched-list')) {
+// if (localStorage.getItem('user-watched-list')) {
+if (load('user-watched-list')) {
     try {
-        userWatchedList = JSON.parse(localStorage.getItem('user-watched-list'));
+        // userWatchedList = JSON.parse(localStorage.getItem('user-watched-list'));
+        userWatchedList = load('user-watched-list');
         // console.log(userWatchedList);
     }
     catch (error) {
@@ -170,7 +178,7 @@ function onAddToWatchedToLocalStorage(event) {
         addToWatchedBtn.textContent = 'Add to watched';
         delete addToWatchedBtn.dataset.watchedDelete;
         if (userWatchedList.length === 0) {
-            localStorage.removeItem("user-watched-list");
+            remove("user-watched-list");
         }
         return;
     }
@@ -189,9 +197,9 @@ function onAddToWatchedToLocalStorage(event) {
 
 // //add to local storage to queue
 let userQueueList = [];
-if (localStorage.getItem('user-queue-list')) {
+if (load('user-queue-list')) {
     try {
-        userQueueList = JSON.parse(localStorage.getItem('user-queue-list'));
+        userQueueList = load('user-queue-list');
         // console.log(userQueueList);
     }
     catch (error) {
@@ -225,7 +233,7 @@ function onAddToQueueToLocalStorage(event) {
         addToQueueBtn.textContent = 'Add to queue';
         delete addToQueueBtn.dataset.queueDelete;
         if (userQueueList.length === 0) {
-            localStorage.removeItem("user-queue-list");
+            remove("user-queue-list");
         }
         return;
     }
