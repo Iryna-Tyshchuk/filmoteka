@@ -3,10 +3,15 @@ import axios from 'axios';
 import { FilmsApi } from '../api';
 
 import { filmsApi } from './apiMainPage';
-// const trailerBtn = document.querySelector('.trailer-btn')
-// trailerBtn.addEventListener('click', onTtailerBtnClick)
+const trailerBackdrop = document.querySelector('.trailer__backdrop');
+const trailerBtn = document.querySelector('.trailer-btn');
+trailerBtn.addEventListener('click', onTtailerBtnClick);
 
-function onTtailerBtnClick() {}
+function onTtailerBtnClick(event) {
+  // console.log('trailer');
+  const filmID = event.target.closest('[data-id]');
+  // console.log(filmID);
+}
 
 async function getVideoUrl(id) {
   const data = await filmsApi
@@ -22,5 +27,5 @@ async function getVideoUrl(id) {
   return data[0];
 }
 
-// console.log(getVideoUrl(76600));
+// console.log(getVideoUrl(536554));
 export { getVideoUrl };
