@@ -8,9 +8,7 @@ const trailerBtn = document.querySelector('.trailer-btn');
 trailerBtn.addEventListener('click', onTtailerBtnClick);
 
 function onTtailerBtnClick(event) {
-  // console.log('trailer');
-  const filmID = event.target.closest('[data-id]');
-  // console.log(filmID);
+  console.log('open trailer container');
 }
 
 async function getVideoUrl(id) {
@@ -24,6 +22,7 @@ async function getVideoUrl(id) {
       })
     )
     .catch(err => console.log(err));
+  console.log(data[0]);
   return data[0];
 }
 
