@@ -30,7 +30,7 @@ export class FilmsApi {
 
   fetchTrendingFilms() {
     const searchParams = {
-    params: {
+      params: {
         page: this.page,
         api_key: FilmsApi.API_KEY,
       },
@@ -41,7 +41,7 @@ export class FilmsApi {
 
   fetchFilmsByQuery() {
     const searchParams = {
-    params: {
+      params: {
         page: this.page,
         api_key: FilmsApi.API_KEY,
         query: this.query,
@@ -51,9 +51,9 @@ export class FilmsApi {
     return axios.get(`${FilmsApi.BASE_URL}search/movie`, searchParams);
   }
 
-    fetchGenres() {
-        const searchParams = {
-        params: {
+  fetchGenres() {
+    const searchParams = {
+      params: {
         page: this.page,
         api_key: FilmsApi.API_KEY,
       },
@@ -63,14 +63,26 @@ export class FilmsApi {
   }
 
   getInfoByOneFilm(id) {
-      // return fetch(`${FilmsApi.BASE_URL}movie/${id}?api_key=${FilmsApi.API_KEY}`)
-      //   .then(response => {
-      //     // console.log(response.json());
-      //     return response.json();
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-    return axios.get(`${FilmsApi.BASE_URL}movie/${id}?api_key=${FilmsApi.API_KEY}`);
+    // return fetch(`${FilmsApi.BASE_URL}movie/${id}?api_key=${FilmsApi.API_KEY}`)
+    //   .then(response => {
+    //     // console.log(response.json());
+    //     return response.json();
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+    return axios.get(
+      `${FilmsApi.BASE_URL}movie/${id}?api_key=${FilmsApi.API_KEY}`
+    );
+  }
+
+  async fetchTrailer(id) {
+    // spinner?
+    const responce = await fetch(
+      `${FilmsApi.BASE_URL}/movie/${id}/videos?api_key=${FilmsApi.API_KEY}`
+    );
+    const data = await responce.json();
+    // spinner?
+    return data;
   }
 }
