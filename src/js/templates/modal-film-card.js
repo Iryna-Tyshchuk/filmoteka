@@ -2,7 +2,7 @@
 import { filmsApi } from './apiMainPage';
 // import { divEl } from './filmCard';
 import localStorageService from '../localstorage.js';
-import { Notify } from 'notiflix';
+
 
 const body = document.querySelector('body');
 const modalBackdrop = document.querySelector('.backdrop__modal-film');
@@ -21,7 +21,6 @@ function onOpenModalFilmInfo(event) {
     }
 
     // console.log(event.target.parentNode);
-
     const currentFilmId = event.target.parentNode.dataset.id;
     
     addFilmInfo(currentFilmId);
@@ -51,7 +50,6 @@ function onKeyClick(event){
         return;
     };
     modalSettings();
-    
 }
 
 function onCloseModalbyBackdrop(event) {
@@ -81,8 +79,7 @@ function addFilmInfo(filmId) {
         .then(({ data }) => {
             dataObj = data;
             // console.log(dataObj);
-            // modalFilmInfo.innerHTML = createFilmCard(data);
-            modalFilmInfo.insertAdjacentHTML('afterbegin', createFilmCard(data));
+            modalFilmInfo.innerHTML = createFilmCard(data);
         })
         .catch(error => {
             console.log(error);
@@ -127,12 +124,6 @@ function createFilmCard(obj) {
                     <p class="film-card__overview-about">About</p>
                     <p class="film-card__overview">${overview}</p>
                 </div>
-
-                <div class="modal-film__buttons-block">
-                    <button type="submit" class="modal-film__btn-watched" data-modal-watched>Add to watched</button>
-                    <button type="submit" class="modal-film__btn-queue" data-modal-queue>Add to queue</button>
-                </div>
-
             </div>
     `
 };
@@ -186,8 +177,6 @@ function onAddToWatchedToLocalStorage(event) {
         addToWatchedBtn.dataset.watchedDelete = '';
         save("user-watched-list", userWatchedList);
         // localStorage.setItem("user-watched-list", JSON.stringify(userWatchedList));
-    } else {
-        // Notify.failure('This film have already add to watched list');
     }
     // console.log(userWatchedList);
     // console.log(JSON.stringify(userWatchedList));
@@ -239,12 +228,10 @@ function onAddToQueueToLocalStorage(event) {
     if (userQueueList.every(el => el.id !== dataObj.id)) {
         // console.log(userQueueList.every(el => el.id === dataObj.id));
         userQueueList.push(userQueueFilm);
-        addToQueueBtn.textContent = 'Delete from watched';
+        addToQueueBtn.textContent = 'Delete from queue';
         addToQueueBtn.dataset.queueDelete = '';
         save("user-queue-list", userQueueList);
         // localStorage.setItem("user-queue-list", JSON.stringify(userQueueList));
-    } else {
-        // Notify.failure('This film have already add to queue list');
     }
     
     // console.log(userQueueList);
