@@ -3,7 +3,7 @@ import { filmsApi } from './apiMainPage';
 // import { divEl } from './filmCard';
 import localStorageService from '../localstorage.js';
 import Notiflix from 'notiflix';
-import { getVideoUrl } from './trailer';
+import { createTrallerMarkap } from './trailer';
 
 const body = document.querySelector('body');
 const modalBackdrop = document.querySelector('.backdrop__modal-film');
@@ -25,7 +25,7 @@ function onOpenModalFilmInfo(event) {
 
   const currentFilmId = getElemFilm.dataset.id;
   addFilmInfo(currentFilmId);
-  getVideoUrl(currentFilmId);
+  createTrallerMarkap(currentFilmId);
   modalBackdrop.classList.remove('is-hidden');
   body.classList.add('no-scroll');
 
