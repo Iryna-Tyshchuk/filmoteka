@@ -2,10 +2,11 @@
 import { filmsApi } from './apiMainPage';
 import localStorageService from '../localstorage.js';
 import Notiflix from 'notiflix';
-
+import { onTrailerBtnClick } from './trailer';
 
 const body = document.querySelector('body');
 const modalBackdrop = document.querySelector('.backdrop__modal-film');
+const modalContainer = document.querySelector('.modal-film__card');
 const buttonCloseModal = document.querySelector('button[data-modal-close]');
 const modalFilmInfo = document.querySelector('.modal-film__info-card');
 const addToWatchedBtn = document.querySelector('button[data-modal-watched]');
@@ -15,100 +16,123 @@ const btnQueue = document.querySelector('.js-btn-queue');
 const btnWatched = document.querySelector('.js-btn-watched');
 const wathedListInMyLibrary = document.querySelector('.watched__list');
 const queueListInMyLibrary = document.querySelector('.queue__list');
+const trailerBackdrop = document.querySelector('.trailer__backdrop');
+const trailerContainer = document.querySelector('.trailer__container');
+const trailerBtn = document.querySelector('.trailer-btn');
+
 const { save, load, remove } = localStorageService;
 
 body.addEventListener('click', onOpenModalFilmInfo);
 function onOpenModalFilmInfo(event) {
-    // console.log(event.target);
-    if (!event.target.closest("[data-id]")) {
-        return;
-    };
-    const getElemFilm = event.target.closest("[data-id]");
-    // console.log(getElem);
+  // console.log(event.target);
+  if (!event.target.closest('[data-id]')) {
+    return;
+  }
+  const getElemFilm = event.target.closest('[data-id]');
+  // console.log(getElem);
 
-    const currentFilmId = getElemFilm.dataset.id;
-    addFilmInfo(currentFilmId);
+  const currentFilmId = getElemFilm.dataset.id;
+  addFilmInfo(currentFilmId);
 
-    modalBackdrop.classList.remove('is-hidden');
-    body.classList.add('no-scroll');
+  modalBackdrop.classList.remove('is-hidden');
+  body.classList.add('no-scroll');
 
-    window.addEventListener('click', onCloseModalbyBackdrop);
-    window.addEventListener('keydown', onKeyClick);
-    buttonCloseModal.addEventListener('click', onCloseModalbyCross);
+  window.addEventListener('click', onCloseModalbyBackdrop);
+  window.addEventListener('keydown', onKeyClick);
+  buttonCloseModal.addEventListener('click', onCloseModalbyCross);
 
-    addToWatchedBtn.addEventListener('click', onAddToWatchedToLocalStorage);
-    addToQueueBtn.addEventListener('click', onAddToQueueToLocalStorage);
+  addToWatchedBtn.addEventListener('click', onAddToWatchedToLocalStorage);
+  addToQueueBtn.addEventListener('click', onAddToQueueToLocalStorage);
+  trailerBtn.addEventListener('click', onTrailerBtnClick);
 
-    checkLocalStorageById(currentFilmId);
-};
+  checkLocalStorageById(currentFilmId);
+}
 
 function onCloseModalbyCross() {
-    modalSettings();
-    // console.log(event.target);
-};
+  modalSettings();
+  // console.log(event.target);
+}
 
-function onKeyClick(event){
-    if (event.code !== 'Escape') {
-        return;
-    };
-    modalSettings();
-};
+function onKeyClick(event) {
+  if (!trailerBackdrop.classList.contains('is-hidden')) {
+    return;
+  }
+  if (event.code !== 'Escape') {
+    return;
+  }
+
+  modalSettings();
+}
 
 function onCloseModalbyBackdrop(event) {
-    if (event.target === modalBackdrop) {
-        modalSettings();
-    };
-};
+  if (!trailerBackdrop.classList.contains('is-hidden')) {
+    return;
+  }
+  if (event.target === modalBackdrop) {
+    modalSettings();
+  }
+}
 
 function modalSettings() {
-    modalBackdrop.classList.add('is-hidden');
-    body.classList.remove('no-scroll');
-    clearBackdropListeners();
-    modalFilmInfo.firstElementChild.remove();
-    filmInfoBlock.firstElementChild.remove();
-};
+  modalBackdrop.classList.add('is-hidden');
+  body.classList.remove('no-scroll');
+  clearBackdropListeners();
+  modalFilmInfo.firstElementChild.remove();
+  filmInfoBlock.firstElementChild.remove();
+  trailerContainer.innerHTML = '';
+}
 
 function clearBackdropListeners() {
-    window.removeEventListener('keydown', onKeyClick);
-    window.removeEventListener('click', onCloseModalbyBackdrop);
-    buttonCloseModal.removeEventListener('click', onCloseModalbyCross);
-};
+  window.removeEventListener('keydown', onKeyClick);
+  window.removeEventListener('click', onCloseModalbyBackdrop);
+  buttonCloseModal.removeEventListener('click', onCloseModalbyCross);
+}
 
 let dataObj = null;
 
 function addFilmInfo(filmId) {
-    // console.log(filmId);
-    Notiflix.Loading.circle({ svgColor: '#ff6b01a1' });
-    addToWatchedBtn.classList.add('is-hidden');
-    addToQueueBtn.classList.add('is-hidden');
-    return filmsApi.getInfoByOneFilm(filmId)
-        .then(({ data }) => {
-            dataObj = data;
-            // console.log(dataObj);
-            const [pictureImgContainer, aboutFilmContainer] = createFilmCard(data);
-            modalFilmInfo.insertAdjacentHTML('afterbegin', pictureImgContainer);
-            filmInfoBlock.insertAdjacentHTML('afterbegin', aboutFilmContainer);
-            Notiflix.Loading.remove();
-            addToWatchedBtn.classList.remove('is-hidden');
-            addToQueueBtn.classList.remove('is-hidden');
-        })
-        .catch(error => {
-            console.log(error);
-        });
-};
+  Notiflix.Loading.circle({ svgColor: '#ff6b01a1' });
+  addToWatchedBtn.classList.add('is-hidden');
+  addToQueueBtn.classList.add('is-hidden');
+  return filmsApi
+    .getInfoByOneFilm(filmId)
+    .then(({ data }) => {
+      dataObj = data;
+      const [pictureImgContainer, aboutFilmContainer] = createFilmCard(data);
+      modalFilmInfo.insertAdjacentHTML('afterbegin', pictureImgContainer);
+      filmInfoBlock.insertAdjacentHTML('afterbegin', aboutFilmContainer);
+      Notiflix.Loading.remove();
+      addToWatchedBtn.classList.remove('is-hidden');
+      addToQueueBtn.classList.remove('is-hidden');
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
 
 //create film card
 function createFilmCard(obj) {
-    const { title, vote_average, vote_count, popularity, original_title, overview, genres, poster_path } = obj;
-    const genresArr = [];
-    genres.map(el => genresArr.push(el.name));
+  const {
+    id,
+    title,
+    vote_average,
+    vote_count,
+    popularity,
+    original_title,
+    overview,
+    genres,
+    poster_path,
+  } = obj;
+  modalContainer.setAttribute('data-film-id', `${id}`);
+  const genresArr = [];
+  genres.map(el => genresArr.push(el.name));
 
-    const pictureImgContainer = `
+  const pictureImgContainer = `
         <div class="film-card__picture-container">
             <img class="film-card__picture" src="https://image.tmdb.org/t/p/w300${poster_path}" alt="${title}">
         </div>
     `;
-    const aboutFilmContainer = `
+  const aboutFilmContainer = `
         <div class="film-card__about-film-container">
                 <div class="film-card__about-film-block">
                     <h2 class="film-card__title">${title}</h2>
@@ -116,13 +140,17 @@ function createFilmCard(obj) {
                         <li class="film-card__info-el">
                             <p class="film-card__info-item">Vote / Votes</p>
                             <p class="film-card__info-item--value">
-                                    <span class="info-item__highlight-orange">${vote_average.toFixed(1)}</span> / 
+                                    <span class="info-item__highlight-orange">${vote_average.toFixed(
+                                      1
+                                    )}</span> / 
                                     <span class="info-item__highlight-grey">${vote_count.toFixed()}</span>
                             </p>
                         </li>
                         <li class="film-card__info-el">
                             <p class="film-card__info-item">Popularity</p>
-                            <p class="film-card__info-item--value">${popularity.toFixed(1)}</p>
+                            <p class="film-card__info-item--value">${popularity.toFixed(
+                              1
+                            )}</p>
                         </li>
                         <li class="film-card__info-el">
                             <p class="film-card__info-item">Original Title</p>
@@ -130,7 +158,9 @@ function createFilmCard(obj) {
                         </li>
                         <li class="film-card__info-el">
                         <p class="film-card__info-item">Genre</p>
-                        <p class="film-card__info-item--value">${genresArr.join(", ")}</p>
+                        <p class="film-card__info-item--value">${genresArr.join(
+                          ', '
+                        )}</p>
                         </li>
                     </ul>
                     <p class="film-card__overview-about">About</p>

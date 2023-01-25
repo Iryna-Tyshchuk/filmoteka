@@ -77,7 +77,9 @@ async function loadQuery() {
       .then(({ data }) => {
         if (!data.results.length) {
           inputWarning.classList.remove('is-none');
+          Notiflix.Loading.remove();
           return;
+          
         }
         pagination.setTotalItems(data.total_pages);
         
@@ -96,11 +98,12 @@ async function loadQuery() {
     document.querySelector('.tui-page-btn.tui-prev').textContent = `1`;  
     
     if (Number(pagination._getLastPage()) === 1) {
-      pagination._options.visiblePages = 1;
+      document.querySelector('#pagination').classList.add('is-none');
+    } else {
+      document.querySelector('#pagination').classList.remove('is-none');
       pagination._paginate();
-      return;
+    }
 
-    } else { pagination._options.visiblePages = 5 };
     Notiflix.Loading.remove();
   } catch (error) {
     console.log(error);
@@ -139,7 +142,7 @@ export function getGenresName(allGenres, genreIds) {
     return acc;
   }, []);
 
-  return genresName.length > 2 ? genresName.slice(0, 2) : genresName;
+  return genresName.length > 2 ? genresName.slice(0, 2).join(', ')+', Other' : genresName.join(', ');
 }
 
 
