@@ -96,7 +96,6 @@ async function loadQuery() {
     document.querySelector('.tui-page-btn.tui-prev').textContent = `1`;  
     
     if (Number(pagination._getLastPage()) === 1) {
-      console.log('hello')
       document.querySelector('#pagination').classList.add('is-none');
     } else {
       document.querySelector('#pagination').classList.remove('is-none');
