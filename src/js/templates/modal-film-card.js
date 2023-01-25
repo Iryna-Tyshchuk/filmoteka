@@ -1,6 +1,5 @@
 'use strict';
 import { filmsApi } from './apiMainPage';
-// import { divEl } from './filmCard';
 import localStorageService from '../localstorage.js';
 import Notiflix from 'notiflix';
 import { onTrailerBtnClick } from './trailer';
@@ -13,6 +12,10 @@ const modalFilmInfo = document.querySelector('.modal-film__info-card');
 const addToWatchedBtn = document.querySelector('button[data-modal-watched]');
 const addToQueueBtn = document.querySelector('button[data-modal-queue]');
 const filmInfoBlock = document.querySelector('.film-card__film-info-block');
+const btnQueue = document.querySelector('.js-btn-queue');
+const btnWatched = document.querySelector('.js-btn-watched');
+const wathedListInMyLibrary = document.querySelector('.watched__list');
+const queueListInMyLibrary = document.querySelector('.queue__list');
 const trailerBackdrop = document.querySelector('.trailer__backdrop');
 const trailerContainer = document.querySelector('.trailer__container');
 const trailerBtn = document.querySelector('.trailer-btn');
@@ -165,136 +168,166 @@ function createFilmCard(obj) {
                 </div>
             </div>
     `;
-  // console.log(aboutFilmContainer);
-  return [pictureImgContainer, aboutFilmContainer];
-}
+    return [pictureImgContainer, aboutFilmContainer];
+};
 
 //add to local storage to watched
 let userWatchedList = [];
 // if (localStorage.getItem('user-watched-list')) {
 if (load('user-watched-list')) {
-  try {
-    // userWatchedList = JSON.parse(localStorage.getItem('user-watched-list'));
-    userWatchedList = load('user-watched-list');
-    // console.log(userWatchedList);
-  } catch (error) {
-    console.log(error);
-  }
-}
+    try {
+        // userWatchedList = JSON.parse(localStorage.getItem('user-watched-list'));
+        userWatchedList = load('user-watched-list');
+        // console.log(userWatchedList);
+    }
+    catch (error) {
+        console.log(error);
+    };
+};
 
 function onAddToWatchedToLocalStorage(event) {
-  event.preventDefault();
-  // const userWatchedList = dataObj;
-  if (!event.target.closest('[data-modal-watched]')) {
-    return;
-  }
-
-  let userWatchedFilm = {
-    id: dataObj.id,
-    title: dataObj.title,
-    vote_average: dataObj.vote_average,
-    genres: dataObj.genres,
-    poster_path: dataObj.poster_path,
-    release_date: dataObj.release_date,
-  };
-  if (event.target.hasAttribute('data-watched-delete')) {
-    const idxForDelete = userWatchedList.findIndex(el => el.id === dataObj.id);
-    // console.log(idxForDelete);
-    const deletedArr = userWatchedList.splice(idxForDelete, 1);
-    // console.log(deletedArr);
-    // console.log(userWatchedList);
-    save('user-watched-list', userWatchedList);
-    addToWatchedBtn.textContent = 'Add to watched';
-    delete addToWatchedBtn.dataset.watchedDelete;
-    if (userWatchedList.length === 0) {
-      remove('user-watched-list');
+    event.preventDefault();
+    // const userWatchedList = dataObj;
+    if (!event.target.closest("[data-modal-watched]")) {
+        return;
     }
-    return;
-  }
+    
+    let userWatchedFilm = {
+        id: dataObj.id,
+        title: dataObj.title,
+        vote_average: dataObj.vote_average,
+        genres: dataObj.genres,
+        poster_path: dataObj.poster_path,
+        release_date: dataObj.release_date,
+    };
+    if (event.target.hasAttribute("data-watched-delete")) {
+        const idxForDelete = userWatchedList.findIndex(el => el.id === dataObj.id);
+        // console.log(idxForDelete);
+        const deletedArr = userWatchedList.splice(idxForDelete, 1);
+        // console.log(deletedArr);
+        // console.log(userWatchedList);
+        save("user-watched-list", userWatchedList);
+        addToWatchedBtn.textContent = 'Add to watched';
+        delete addToWatchedBtn.dataset.watchedDelete;
+        if (userWatchedList.length === 0) {
+            remove("user-watched-list");
+        };
 
-  if (userWatchedList.every(el => el.id !== dataObj.id)) {
-    // console.log(userWatchedList.every(el => el.id === dataObj.id));
-    userWatchedList.push(userWatchedFilm);
-    addToWatchedBtn.textContent = 'Delete from watched';
-    addToWatchedBtn.dataset.watchedDelete = '';
-    save('user-watched-list', userWatchedList);
-    // localStorage.setItem("user-watched-list", JSON.stringify(userWatchedList));
-  }
-  // console.log(userWatchedList);
-  // console.log(JSON.stringify(userWatchedList));
-}
+        if (btnWatched?.classList.contains("btn-header-active")) {
+            const elForDelete = document.querySelector(`[data-id="${dataObj.id}"]`);
+            elForDelete.remove();
+        };
+
+        return;
+    };
+
+    if (!event.target.hasAttribute("data-watched-delete") && btnWatched?.classList.contains("btn-header-active")) {
+        wathedListInMyLibrary.insertAdjacentHTML('beforeend', addFilmCardToList(dataObj));
+    };
+
+    if (userWatchedList.every(el => el.id !== dataObj.id)) {
+        // console.log(userWatchedList.every(el => el.id === dataObj.id));
+        userWatchedList.push(userWatchedFilm);
+        addToWatchedBtn.textContent = 'Delete from watched';
+        addToWatchedBtn.dataset.watchedDelete = '';
+        save("user-watched-list", userWatchedList);
+        // localStorage.setItem("user-watched-list", JSON.stringify(userWatchedList));
+    };
+    // console.log(userWatchedList);
+    // console.log(JSON.stringify(userWatchedList));
+};
 
 // //add to local storage to queue
 let userQueueList = [];
 if (load('user-queue-list')) {
-  try {
-    userQueueList = load('user-queue-list');
-    // console.log(userQueueList);
-  } catch (error) {
-    console.log(error);
-  }
-}
+    try {
+        userQueueList = load('user-queue-list');
+        // console.log(userQueueList);
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
 
 function onAddToQueueToLocalStorage(event) {
-  event.preventDefault();
-  // const userQueueList = dataObj;
-  if (!event.target.closest('[data-modal-queue]')) {
-    return;
-  }
+    event.preventDefault();
+    if (!event.target.closest("[data-modal-queue]")) {
+        return;
+    };
+    
+    let userQueueFilm = {
+        id: dataObj.id,
+        title: dataObj.title,
+        vote_average: dataObj.vote_average,
+        genres: dataObj.genres,
+        poster_path: dataObj.poster_path,
+        release_date: dataObj.release_date,
+    };
 
-  let userQueueFilm = {
-    id: dataObj.id,
-    title: dataObj.title,
-    vote_average: dataObj.vote_average,
-    genres: dataObj.genres,
-    poster_path: dataObj.poster_path,
-    release_date: dataObj.release_date,
-  };
+    if (event.target.hasAttribute("data-queue-delete")) {
+        const idxForDelete = userQueueList.findIndex(el => el.id === dataObj.id);
+        const deletedArr = userQueueList.splice(idxForDelete, 1);
+        save("user-queue-list", userQueueList);
+        addToQueueBtn.textContent = 'Add to queue';
+        delete addToQueueBtn.dataset.queueDelete;
+        if (userQueueList.length === 0) {
+            remove("user-queue-list");
+        };
+        
+        if (btnQueue?.classList.contains("btn-header-active")) {
+            const elForDelete = document.querySelector(`[data-id="${dataObj.id}"]`);
+            elForDelete.remove();
+        };
+        return;
+    };
 
-  if (event.target.hasAttribute('data-queue-delete')) {
-    const idxForDelete = userQueueList.findIndex(el => el.id === dataObj.id);
-    // console.log(idxForDelete);
-    const deletedArr = userQueueList.splice(idxForDelete, 1);
-    // console.log(deletedArr);
-    // console.log(userQueueList);
-    save('user-queue-list', userQueueList);
-    addToQueueBtn.textContent = 'Add to queue';
-    delete addToQueueBtn.dataset.queueDelete;
-    if (userQueueList.length === 0) {
-      remove('user-queue-list');
-    }
-    return;
-  }
+    if (!event.target.hasAttribute("data-queue-delete") && btnQueue?.classList.contains("btn-header-active")) {
+        queueListInMyLibrary.insertAdjacentHTML('beforeend', addFilmCardToList(dataObj));
+    };
 
-  if (userQueueList.every(el => el.id !== dataObj.id)) {
-    // console.log(userQueueList.every(el => el.id === dataObj.id));
-    userQueueList.push(userQueueFilm);
-    addToQueueBtn.textContent = 'Delete from queue';
-    addToQueueBtn.dataset.queueDelete = '';
-    save('user-queue-list', userQueueList);
-    // localStorage.setItem("user-queue-list", JSON.stringify(userQueueList));
-  }
-
-  // console.log(userQueueList);
-  // console.log(JSON.stringify(userQueueList));
-}
+    if (userQueueList.every(el => el.id !== dataObj.id)) {
+        // console.log(userQueueList.every(el => el.id === dataObj.id));
+        userQueueList.push(userQueueFilm);
+        addToQueueBtn.textContent = 'Delete from queue';
+        addToQueueBtn.dataset.queueDelete = '';
+        save("user-queue-list", userQueueList);
+    };
+};
 
 function checkLocalStorageById(id) {
-  // console.log(userWatchedList.find(el => el.id === Number(id)));
-  if (userWatchedList.find(el => el.id === Number(id)) === undefined) {
-    addToWatchedBtn.textContent = 'Add to watched';
-    delete addToWatchedBtn.dataset.watchedDelete;
-  } else {
-    addToWatchedBtn.textContent = 'Delete from watched';
-    addToWatchedBtn.dataset.watchedDelete = '';
-  }
+    // console.log(userWatchedList.find(el => el.id === Number(id)));
+    if (userWatchedList.find(el => el.id === Number(id)) === undefined) {
+        addToWatchedBtn.textContent = 'Add to watched';
+        delete addToWatchedBtn.dataset.watchedDelete;
+    } else {
+        addToWatchedBtn.textContent = 'Delete from watched';
+        addToWatchedBtn.dataset.watchedDelete = '';
+    };
+    
+    // console.log(userQueueList.find(el => el.id === Number(id)));
+    if (userQueueList.find(el => el.id === Number(id)) === undefined) {
+        addToQueueBtn.textContent = 'Add to queue';
+        delete addToQueueBtn.dataset.queueDelete;
+    } else {
+        addToQueueBtn.textContent = 'Delete from queue';
+        addToQueueBtn.dataset.queueDelete = '';
+    };
+};
 
-  // console.log(userQueueList.find(el => el.id === Number(id)));
-  if (userQueueList.find(el => el.id === Number(id)) === undefined) {
-    addToQueueBtn.textContent = 'Add to queue';
-    delete addToQueueBtn.dataset.queueDelete;
-  } else {
-    addToQueueBtn.textContent = 'Delete from queue';
-    addToQueueBtn.dataset.queueDelete = '';
-  }
-}
+function addFilmCardToList(film) {
+    const genresArr = film.genres.map(el => el.name);
+  const filmsMarkup = 
+        `
+			<li class="film__list-element" data-id=${film.id}>
+				<img class="film__list-img" src="https://image.tmdb.org/t/p/w500/${film.poster_path}" 
+                alt="${film.original_title}" width='395' height='574'>
+                <div class="film__description">
+                    <h2 class='film__title'>${film.original_title}</h2>
+                    <p class="film__title about">${genresArr.length > 2 ? genresArr.slice(0, 2).join(", ") + ', Other' : genresArr.join(", ")}
+                    | ${film.release_date.split('-')[0]} | <span class='vote'>${Number(
+                    film.vote_average).toFixed(1)}</span></p>
+                </div>
+			</li>
+      `;
+    return filmsMarkup;
+};
