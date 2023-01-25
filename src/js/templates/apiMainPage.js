@@ -77,7 +77,9 @@ async function loadQuery() {
       .then(({ data }) => {
         if (!data.results.length) {
           inputWarning.classList.remove('is-none');
+          Notiflix.Loading.remove();
           return;
+          
         }
         pagination.setTotalItems(data.total_pages);
         
