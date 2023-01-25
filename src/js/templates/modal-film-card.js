@@ -3,15 +3,20 @@ import { filmsApi } from './apiMainPage';
 // import { divEl } from './filmCard';
 import localStorageService from '../localstorage.js';
 import Notiflix from 'notiflix';
-import { createTrallerMarkap } from './trailer';
+import { onTrailerBtnClick } from './trailer';
 
 const body = document.querySelector('body');
 const modalBackdrop = document.querySelector('.backdrop__modal-film');
+const modalContainer = document.querySelector('.modal-film__card');
 const buttonCloseModal = document.querySelector('button[data-modal-close]');
 const modalFilmInfo = document.querySelector('.modal-film__info-card');
 const addToWatchedBtn = document.querySelector('button[data-modal-watched]');
 const addToQueueBtn = document.querySelector('button[data-modal-queue]');
 const filmInfoBlock = document.querySelector('.film-card__film-info-block');
+const trailerBackdrop = document.querySelector('.trailer__backdrop');
+const trailerContainer = document.querySelector('.trailer__container');
+const trailerBtn = document.querySelector('.trailer-btn');
+
 const { save, load, remove } = localStorageService;
 
 body.addEventListener('click', onOpenModalFilmInfo);
@@ -25,7 +30,7 @@ function onOpenModalFilmInfo(event) {
 
   const currentFilmId = getElemFilm.dataset.id;
   addFilmInfo(currentFilmId);
-  createTrallerMarkap(currentFilmId);
+
   modalBackdrop.classList.remove('is-hidden');
   body.classList.add('no-scroll');
 
@@ -35,6 +40,7 @@ function onOpenModalFilmInfo(event) {
 
   addToWatchedBtn.addEventListener('click', onAddToWatchedToLocalStorage);
   addToQueueBtn.addEventListener('click', onAddToQueueToLocalStorage);
+  trailerBtn.addEventListener('click', onTrailerBtnClick);
 
   checkLocalStorageById(currentFilmId);
 }
@@ -45,13 +51,20 @@ function onCloseModalbyCross() {
 }
 
 function onKeyClick(event) {
+  if (!trailerBackdrop.classList.contains('is-hidden')) {
+    return;
+  }
   if (event.code !== 'Escape') {
     return;
   }
+
   modalSettings();
 }
 
 function onCloseModalbyBackdrop(event) {
+  if (!trailerBackdrop.classList.contains('is-hidden')) {
+    return;
+  }
   if (event.target === modalBackdrop) {
     modalSettings();
   }
@@ -63,6 +76,7 @@ function modalSettings() {
   clearBackdropListeners();
   modalFilmInfo.firstElementChild.remove();
   filmInfoBlock.firstElementChild.remove();
+  trailerContainer.innerHTML = '';
 }
 
 function clearBackdropListeners() {
@@ -74,7 +88,6 @@ function clearBackdropListeners() {
 let dataObj = null;
 
 function addFilmInfo(filmId) {
-  // console.log(filmId);
   Notiflix.Loading.circle({ svgColor: '#ff6b01a1' });
   addToWatchedBtn.classList.add('is-hidden');
   addToQueueBtn.classList.add('is-hidden');
@@ -82,7 +95,6 @@ function addFilmInfo(filmId) {
     .getInfoByOneFilm(filmId)
     .then(({ data }) => {
       dataObj = data;
-      // console.log(dataObj);
       const [pictureImgContainer, aboutFilmContainer] = createFilmCard(data);
       modalFilmInfo.insertAdjacentHTML('afterbegin', pictureImgContainer);
       filmInfoBlock.insertAdjacentHTML('afterbegin', aboutFilmContainer);
@@ -98,6 +110,7 @@ function addFilmInfo(filmId) {
 //create film card
 function createFilmCard(obj) {
   const {
+    id,
     title,
     vote_average,
     vote_count,
@@ -107,6 +120,7 @@ function createFilmCard(obj) {
     genres,
     poster_path,
   } = obj;
+  modalContainer.setAttribute('data-film-id', `${id}`);
   const genresArr = [];
   genres.map(el => genresArr.push(el.name));
 
