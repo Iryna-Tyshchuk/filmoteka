@@ -139,7 +139,7 @@ export function getGenresName(allGenres, genreIds) {
     return acc;
   }, []);
 
-  return genresName.length > 2 ? genresName.slice(0, 2) : genresName;
+  return genresName.length > 2 ? genresName.slice(0, 2).join(', ')+', Other' : genresName.join(', ');
 }
 
 
