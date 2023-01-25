@@ -7,3 +7,4 @@ import './js/preloader';
 import './js/templates/loginForm';
 import './js/templates/modalCreators';
 import './js/templates/trailer';
+import './js/firebase';
