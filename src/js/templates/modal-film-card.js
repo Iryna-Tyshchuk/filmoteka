@@ -142,7 +142,7 @@ function createFilmCard(obj) {
                             <p class="film-card__info-item--value">
                                     <span class="info-item__highlight-orange">${vote_average.toFixed(
                                       1
-                                    )}</span> / 
+                                    )}</span> /
                                     <span class="info-item__highlight-grey">${vote_count.toFixed()}</span>
                             </p>
                         </li>
@@ -168,16 +168,13 @@ function createFilmCard(obj) {
                 </div>
             </div>
     `;
-
     return [pictureImgContainer, aboutFilmContainer];
 };
-
 
 //add to local storage to watched
 let userWatchedList = [];
 // if (localStorage.getItem('user-watched-list')) {
 if (load('user-watched-list')) {
-
     try {
         // userWatchedList = JSON.parse(localStorage.getItem('user-watched-list'));
         userWatchedList = load('user-watched-list');
@@ -194,7 +191,7 @@ function onAddToWatchedToLocalStorage(event) {
     if (!event.target.closest("[data-modal-watched]")) {
         return;
     }
-    
+
     let userWatchedFilm = {
         id: dataObj.id,
         title: dataObj.title,
@@ -257,7 +254,7 @@ function onAddToQueueToLocalStorage(event) {
     if (!event.target.closest("[data-modal-queue]")) {
         return;
     };
-    
+
     let userQueueFilm = {
         id: dataObj.id,
         title: dataObj.title,
@@ -276,7 +273,7 @@ function onAddToQueueToLocalStorage(event) {
         if (userQueueList.length === 0) {
             remove("user-queue-list");
         };
-        
+
         if (btnQueue?.classList.contains("btn-header-active")) {
             const elForDelete = document.querySelector(`[data-id="${dataObj.id}"]`);
             elForDelete.remove();
@@ -306,7 +303,7 @@ function checkLocalStorageById(id) {
         addToWatchedBtn.textContent = 'Delete from watched';
         addToWatchedBtn.dataset.watchedDelete = '';
     };
-    
+
     // console.log(userQueueList.find(el => el.id === Number(id)));
     if (userQueueList.find(el => el.id === Number(id)) === undefined) {
         addToQueueBtn.textContent = 'Add to queue';
@@ -319,10 +316,10 @@ function checkLocalStorageById(id) {
 
 function addFilmCardToList(film) {
     const genresArr = film.genres.map(el => el.name);
-  const filmsMarkup = 
+  const filmsMarkup =
         `
 			<li class="film__list-element" data-id=${film.id}>
-				<img class="film__list-img" src="https://image.tmdb.org/t/p/w500/${film.poster_path}" 
+				<img class="film__list-img" src="https://image.tmdb.org/t/p/w500/${film.poster_path}"
                 alt="${film.original_title}" width='395' height='574'>
                 <div class="film__description">
                     <h2 class='film__title'>${film.original_title}</h2>

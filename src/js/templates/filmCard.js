@@ -5,7 +5,6 @@ import { getGenresName } from './apiMainPage';
 
 export const divEl = document.querySelector('.films__list');
 export const createFilmCards = (films, genres) => {
-
   const BASE_URL_IMG = 'https://image.tmdb.org/t/p/w500/';
   const filmsMarkup = films
     .map(
@@ -35,4 +34,3 @@ function getMoviePoster(baseUrl, posterUrl) {
   }
   return baseUrl + posterUrl;
 }
-

@@ -12,6 +12,7 @@ const googleBtnEl = document.querySelector('#google-btn');
 const loginBtnEl = document.querySelector('#login-btn');
 const userInfoContainer = document.querySelector('.user-info');
 
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: 'AIzaSyBPZbkO_SJHPj74kRyWcf-tF7reNGSDFKk',
@@ -44,7 +45,7 @@ async function getUserData(event) {
       toggleModal();
       loginBtnEl.textContent = "LOGOUT";
       renderUserData();
-      
+
     })
     .catch(error => {
       // Handle Errors here.
@@ -59,7 +60,6 @@ async function getUserData(event) {
 }
 
 
-
 export function renderUserData() {
   const { name, picture } = localstorage.load('user');
   const markup = `<img class="user-info__photo" src="${picture}"><p class="user-info__name">${name}</p>`;
@@ -68,4 +68,5 @@ export function renderUserData() {
 export function clearUserData() {
   userInfoContainer.innerHTML = '';
  }
+
 
