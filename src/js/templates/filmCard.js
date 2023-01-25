@@ -14,8 +14,9 @@ export const createFilmCards = (films, genres) => {
         }" alt="${film.original_title}" width='395' height='574'>
    			<div class="film__description">
    				<h2 class='film__title'>${film.original_title}</h2>
-	   			<p class="film__title about">${getGenresName(genres, film.genre_ids).join(
-            ', '
+	   			<p class="film__title about">${getGenresName(
+            genres,
+            film.genre_ids
           )} | ${getYear(film.release_date)} | <span class='vote'>${Number(
         film.vote_average
       ).toFixed(1)}</span></p>
