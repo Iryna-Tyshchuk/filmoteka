@@ -1,0 +1,70 @@
+body {
+  cursor: url(../images/cursor-body.png), auto;
+}
+
+a,
+button,
+label {
+  cursor: url(../images/pointer.png), auto;
+}
+
+.card-title {
+  font-family: 'Roboto';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: #000000;
+}
+
+.card-genre {
+  color: #ff6b08;
+  border-right: 3px solid #ff6b08;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  padding-right: 10px;
+}
+
+.card-year {
+  color: #ff6b08;
+  padding-left: 5px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.card-average {
+  border-radius: 5px;
+  width: 40px;
+  height: 20px;
+  background-color: #ff6b01;
+  font-family: 'Roboto';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.card-container {
+  display: flex;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background-color: #ff6b01a1;
+}
+::-webkit-scrollbar-thumb {
+  background: #ff6b01;
+  border-radius: 5px;
+}

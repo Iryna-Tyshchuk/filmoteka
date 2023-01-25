@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Filmoteka</title>
+    <title>My Library</title>
     <link rel="shortcut icon" href="./images/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,26 +12,19 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./sass/index.scss" />
-    <!-- Link Swiper's CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
-    />
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <script type="module" src="./index.js"></script>
+    <script type="module" src="./myLibrary.js"></script>
   </head>
-
-  <body class="theme-light">
+  <body>
     <!-- ❗️❗️❗️ Add partials like so for every page -->
-    <include src="./partials/headerHome.html"></include>
-    <include src="./partials/toTopBtn.html"></include>
-    <include src="./partials/loginForm.html"></include>
+    <include src="./partials/headerMyLibrary.html"></include>
     <include src="./partials/body.html"></include>
-    <include src="./partials/filmcard.html"></include>
+    <include src="./partials/loginForm.html"></include>
+
     <include src="./partials/loader.html"></include>
-    <!-- <include src="./partials/filmcard.html"></include> -->
+    <include src="./partials/mylibrary.html"></include>
     <include src="./partials/pagination.html"></include>
+    <include src="./partials/toTopBtn.html"></include>
     <include src="./partials/modalcreators.html"></include>
     <include src="./partials/footer.html"></include>
     <include src="./partials/modal.html"></include>

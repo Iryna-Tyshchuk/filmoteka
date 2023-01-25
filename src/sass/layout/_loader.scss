@@ -1,0 +1,39 @@
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #fff;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.loaded .preloader {
+  display: none;
+}
+
+.disappear {
+  animation: clean 1000ms forwards;
+}
+
+@keyframes clean {
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.preloader__img {
+  width: 100px;
+  height: 100px;
+}
+
+.preloader__text {
+  font-size: 18px;
+  margin-left: 25px;
+  margin-top: 10px;
+}

@@ -1,0 +1,205 @@
+.tui-pagination {
+    height: 40px;
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.tui-pagination .tui-page-btn {
+    font-family: 'Roboto', sans-serif;
+    display: inline-block;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    padding:  13px;
+    margin-left: 0;
+    color: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    line-height: 1.33;
+    vertical-align: middle;
+    border: none;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.tui-pagination .tui-page-btn:hover, .tui-pagination .tui-page-btn:focus {
+    background-color: #FF6B08;
+    border: 1px solid #fff;
+}
+
+.tui-pagination .tui-is-selected,
+.tui-pagination strong {
+    color: #fff;
+    background: #FF6B08;
+    border-color: none;
+}
+
+.tui-pagination .tui-first-child.tui-is-selected,
+.tui-pagination strong.tui-first-child {
+    margin-left: 0
+}
+
+.tui-pagination .tui-prev-is-ellip {
+    border: none;
+    text-align: center;
+    justify-content: center;
+}
+
+.tui-pagination .tui-last-child,
+.tui-pagination .tui-next-is-ellip {
+    border: none;
+}
+
+.tui-pagination .tui-first-child.tui-is-selected {
+    border-left: 1px solid #FF6B08
+}
+
+.tui-pagination .tui-last-child.tui-is-selected {
+    border-right: 1px solid #FF6B08
+}
+
+.tui-pagination .tui-first,
+.tui-pagination .tui-prev,
+.tui-pagination .tui-next,
+.tui-pagination .tui-last,
+.tui-pagination .tui-prev-is-ellip,
+.tui-pagination .tui-next-is-ellip {
+    overflow: hidden;
+    height: 40px;
+    padding: 0;
+    line-height: 1.33;
+    white-space: nowrap;
+    font-size: 12px;
+    border: none;
+}
+
+.tui-pagination .tui-prev-is-ellip {
+    border-right: 0
+}
+
+.tui-pagination .tui-next-is-ellip {
+    border-left: 0
+}
+
+.tui-pagination .tui-first+.tui-prev,
+.tui-pagination .tui-next+.tui-last {
+    border-left: 0
+}
+
+.tui-pagination .tui-ico-first,
+.tui-pagination .tui-ico-prev,
+.tui-pagination .tui-ico-next,
+.tui-pagination .tui-ico-last,
+.tui-pagination .tui-ico-ellip {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.tui-pagination .tui-prev-is-ellip,
+.tui-pagination .tui-next-is-ellip {
+    display: none;
+    @include tablet {
+        display: inline-block;
+    }
+    padding: 0;
+    line-height: 1;
+}
+
+.tui-pagination .tui-ico-first {
+    width: 11px;
+    height: 10px;
+    background-position: 0px 0px
+}
+
+.tui-pagination .tui-ico-prev {
+    width: 6px;
+    height: 10px;
+    background-position: -26px 0px
+}
+
+.tui-pagination .tui-ico-next {
+    margin-top: 10px;
+    width: 6px;
+    height: 10px;
+    background-position: -13px -24px
+}
+
+.tui-pagination .tui-ico-last {
+    width: 11px;
+    height: 10px;
+    background-position: 0px -12px
+}
+
+.tui-pagination .tui-ico-ellip {
+    width: 10px;
+    margin-top: 10px;
+    vertical-align: top;
+    background-position: 0px -24px
+}
+
+.tui-pagination .tui-is-disabled .tui-ico-prev {
+    background-position: -26px -12px
+}
+
+.tui-pagination .tui-is-disabled .tui-ico-first {
+    background-position: -13px 0px
+}
+
+.tui-pagination .tui-is-disabled .tui-ico-next {
+    background-position: -21px -24px;
+}
+
+.tui-pagination .tui-is-disabled .tui-ico-last {
+    background-position: -13px -12px
+}
+
+.tui-page-inputs {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.tui-page-inputs .tui-page-current {
+    color: #FF6B08
+}
+
+.tui-page-separator {
+    display: inline-block;
+    font-size: 12px;
+    height: 12px;
+    padding: 8px 0 6px;
+    vertical-align: top
+}
+
+.tui-page-btn.tui-last {
+    background-color: #F7F7F7;
+    border-radius: 5px;
+    background-image: url(../images/arrow-right.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    }
+
+.tui-page-btn.tui-first {
+    background-color: #F7F7F7;
+    border-radius: 5px;
+    background-image: url(../images/arrow-left.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.tui-page-btn.tui-next, .tui-page-btn.tui-prev {
+    padding-top: 12px;
+    display: none;
+    @include tablet {
+        display: inline-block;
+        }
+}
+
+.tui-page-btn.tui-next.tui-is-disabled, .tui-page-btn.tui-prev.tui-is-disabled {
+    display: none  ;
+}
+
+.tui-page-btn.tui-prev.is-none, .tui-page-btn.tui-next.is-none {
+    display: none;
+}
+

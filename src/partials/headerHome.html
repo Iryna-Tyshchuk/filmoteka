@@ -1,0 +1,63 @@
+<header class="header">
+  <div class="header__container container">
+    <div class="header__navigation">
+      <a href="" class="header__logo logo">
+        <svg width="24" height="24">
+          <use href="./images/headerHome/headerHome-icons.svg#icon-logo"></use>
+        </svg>
+        <span class="logo__title">Filmoteka</span>
+      </a>
+
+      <div class="header__wrapper">
+        <nav class="header__menu menu">
+          <ul class="menu__list">
+            <li class="menu__item">
+              <a href="./index.html" class="menu__link menu__link--current"
+                >Home</a
+              >
+            </li>
+            <li class="menu__item">
+              <a href="./mylibrary.html" class="menu__link">My library</a>
+            </li>
+          </ul>
+        </nav>
+        <button class="header__login" id="login-btn">Login</button>
+      </div>
+    </div>
+
+    <form class="header__search-form search-form" id="search-form">
+      <input
+        class="search-form__input"
+        type="text"
+        placeholder="Movie search"
+      />
+      <button class="search-form__button" type="submit">
+        <svg class="search-form__button-icon" width="12" height="12">
+          <use
+            href="./images/headerHome/headerHome-icons.svg#icon-magnifying-glass"
+          ></use>
+        </svg>
+      </button>
+    </form>
+    <p class="input-warning is-none">
+      Search result not successful. Enter the correct movie name.
+    </p>
+    <div class="user-info">
+    
+    </div>
+
+    <div class="toolbar-container">
+      <input type="checkbox" class="checkbox visually-hidden" id="checkbox" />
+      <label for="checkbox" class="label">
+        <svg class="toolbar-icon" width="20" height="20">
+          <use href="./images/headerHome/headerHome-icons.svg#icon-sun"></use>
+        </svg>
+        <svg class="toolbar-icon" width="20" height="20">
+          <use href="./images/headerHome/headerHome-icons.svg#icon-moon"></use>
+        </svg>
+        <div class="ball"></div>
+      </label>
+    </div>
+  </div>
+  <script src="./js/themeToggler.js" type="module"></script>
+</header>
