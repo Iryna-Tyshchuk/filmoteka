@@ -96,11 +96,13 @@ async function loadQuery() {
     document.querySelector('.tui-page-btn.tui-prev').textContent = `1`;  
     
     if (Number(pagination._getLastPage()) === 1) {
-      pagination._options.visiblePages = 1;
+      console.log('hello')
+      document.querySelector('#pagination').classList.add('is-none');
+    } else {
+      document.querySelector('#pagination').classList.remove('is-none');
       pagination._paginate();
-      return;
+    }
 
-    } else { pagination._options.visiblePages = 5 };
     Notiflix.Loading.remove();
   } catch (error) {
     console.log(error);
