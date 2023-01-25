@@ -6,3 +6,4 @@ import showScrollup from './js/showScrollup';
 import './js/preloader';
 import './js/templates/loginForm';
 import './js/templates/modalCreators';
+import './js/firebase';
