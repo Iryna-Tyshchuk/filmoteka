@@ -39,12 +39,13 @@ async function getUserData(event) {
       // The signed-in user info.
       const user = jwt_decode(result.user.accessToken);
       localstorage.save('user', user);
+
       //location.reload();
       // ...
       toggleModal();
       loginBtnEl.textContent = "LOGOUT";
       renderUserData();
-      
+
     })
     .catch(error => {
       // Handle Errors here.
