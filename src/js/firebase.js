@@ -12,6 +12,7 @@ const googleBtnEl = document.querySelector('#google-btn');
 const loginBtnEl = document.querySelector('#login-btn');
 const userInfoContainer = document.querySelector('.user-info');
 
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: 'AIzaSyBPZbkO_SJHPj74kRyWcf-tF7reNGSDFKk',
@@ -38,7 +39,6 @@ async function getUserData(event) {
       // The signed-in user info.
       const user = jwt_decode(result.user.accessToken);
       localstorage.save('user', user);
-      console.log(user);
       //location.reload();
       // ...
       toggleModal();
@@ -59,12 +59,13 @@ async function getUserData(event) {
 }
 
 
-function renderUserData() {
-  //const markup = 
-  const userData = localstorage.load('user');
-  const userName = userData.name;
-  console.log(userName);
-  // //const userName = JSON.parse(userData).name.toString;
-  // Notify.success(`Welcome, ${userName}`);
+export function renderUserData() {
+  const { name, picture } = localstorage.load('user');
+  const markup = `<img class="user-info__photo" src="${picture}"><p class="user-info__name">${name}</p>`;
+  userInfoContainer.insertAdjacentHTML('afterbegin', markup);
 }
+export function clearUserData() {
+  userInfoContainer.innerHTML = '';
+ }
+
 
