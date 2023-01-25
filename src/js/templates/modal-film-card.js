@@ -168,13 +168,16 @@ function createFilmCard(obj) {
                 </div>
             </div>
     `;
+
     return [pictureImgContainer, aboutFilmContainer];
 };
+
 
 //add to local storage to watched
 let userWatchedList = [];
 // if (localStorage.getItem('user-watched-list')) {
 if (load('user-watched-list')) {
+
     try {
         // userWatchedList = JSON.parse(localStorage.getItem('user-watched-list'));
         userWatchedList = load('user-watched-list');
@@ -331,3 +334,4 @@ function addFilmCardToList(film) {
       `;
     return filmsMarkup;
 };
+

@@ -8,6 +8,7 @@ const backdrop = document.querySelector('.backdrop');
 const closeBtnEl = document.querySelector('button[data-modal-close]');
 const libraryBtnEl = document.querySelector('#library-btn');
 
+
 loginBtnEl.addEventListener('click', onLoginBtnClick);
 
 if (localstorage.load('user')) {
@@ -30,12 +31,14 @@ if (localstorage.load('user')) {
     });
 })();
 
+
 function onLoginBtnClick() {
   if (localstorage.load('user')) {
     localstorage.remove('user');
     //window.location.href = './index.html';
     loginBtnEl.textContent = 'LOGIN';
     clearUserData();
+
     return;
   }
 
