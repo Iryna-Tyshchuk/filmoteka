@@ -3,12 +3,13 @@ import axios from 'axios';
 import { FilmsApi } from '../api';
 
 import { filmsApi } from './apiMainPage';
+const body = document.querySelector('body');
 const trailerBackdrop = document.querySelector('.trailer__backdrop');
 const trailerContainer = document.querySelector('.trailer__container');
 const trailerBtn = document.querySelector('.trailer-btn');
-trailerBtn.addEventListener('click', onTtailerBtnClick);
+trailerBtn.addEventListener('click', onTrailerBtnClick);
 
-function onTtailerBtnClick(event) {
+function onTrailerBtnClick(event) {
   trailerBackdrop.classList.remove('visually-hidden');
   console.log('open trailer container');
 
@@ -20,10 +21,7 @@ function onTtailerBtnClick(event) {
 
 function onCloseTrailerbyBackdrop(event) {
   if (event.target === trailerBackdrop) {
-    trailerBackdrop.classList.add('is-hidden');
-    body.classList.remove('no-scroll');
-    window.removeEventListener('click', onCloseTrailerbyBackdrop);
-    window.removeEventListener('keydown', onCloseTrailerbyEsc);
+    clearTrailer();
   }
 }
 
@@ -31,10 +29,15 @@ function onCloseTrailerbyEsc(event) {
   if (event.code !== 'Escape') {
     return;
   }
+  clearTrailer();
+}
+
+function clearTrailer() {
   trailerBackdrop.classList.add('is-hidden');
   body.classList.remove('no-scroll');
-  window.removeEventListener('keydown', onCloseTrailerbyEsc);
+  trailerContainer.innerHTML = '';
   window.removeEventListener('click', onCloseTrailerbyBackdrop);
+  window.removeEventListener('keydown', onCloseTrailerbyEsc);
 }
 
 async function getVideoUrl(id) {
@@ -48,21 +51,21 @@ async function getVideoUrl(id) {
       })
     )
     .catch(err => console.log(err));
-  console.log(data[0]);
   return data[0];
 }
-
-// console.log(getVideoUrl(536554));
 
 async function createTrallerMarkap(currentFilmId) {
   const trailerMarkap = `
   <iframe class="trailer__iframe" 
-  src="${await getVideoUrl(currentFilmId)}" title="YouTube video player" 
-  frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
-  encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+  src="${await getVideoUrl(currentFilmId)}" 
+  title="YouTube video player" 
+  frameborder="0" 
+  allow="accelerometer; autoplay; clipboard-write; 
+  encrypted-media; gyroscope; picture-in-picture" 
+  allowfullscreen>
   </iframe>
   `;
   trailerContainer.innerHTML = trailerMarkap;
 }
-// width="700" height="500"
+
 export { createTrallerMarkap };

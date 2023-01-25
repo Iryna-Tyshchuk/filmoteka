@@ -1,3 +1,7 @@
+.trailer__backdrop {
+  background-color: rgba(0, 0, 0, 0.685);
+}
+
 .trailer__container {
   position: relative;
   min-width: 270px;
@@ -5,8 +9,8 @@
   min-height: 590px;
   //   padding: 48px 20px 40px 20px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  //   flex-direction: column;
+  //   justify-content: space-between;
   align-items: center;
   background-color: #110f0f2d;
   transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -49,7 +53,17 @@
   border-radius: 10px;
 }
 .trailer__iframe {
-  width: 100%;
-  min-width: 270px;
-  //   min-height: 590px;
+  border-radius: 5px;
+
+  min-width: 310px;
+  min-height: 175px;
+
+  @include tablet {
+    min-width: 700px;
+    min-height: 390px;
+  }
+  @include desktop {
+    width: 800px;
+    height: 450px;
+  }
 }
