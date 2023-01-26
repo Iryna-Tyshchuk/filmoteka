@@ -1,20 +1,20 @@
 .header.library {
-  background-image: url(../images/headerMylibrary/headerLibraryBg-mob-min.jpg);
+  background-image: url(../images/headerMyLibrary/headerLibraryBg-mob-min.jpg);
   @include retina {
-    background-image: url(../images/headerMylibrary/headerLibraryBg-mob-2x-min.jpg);
+    background-image: url(../images/headerMyLibrary/headerLibraryBg-mob-2x-min.jpg);
   }
 
   @include tablet {
-    background-image: url(../images/headerMylibrary/headerLibraryBg-tab-min.jpg);
+    background-image: url(../images/headerMyLibrary/headerLibraryBg-tab-min.jpg);
     @include retina {
-      background-image: url(../images/headerMylibrary/headerLibraryBg-tab-2x-min.jpg);
+      background-image: url(../images/headerMyLibrary/headerLibraryBg-tab-2x-min.jpg);
     }
   }
 
   @include desktop {
-    background-image: url(../images/headerMylibrary/headerLibraryBg-desk-min.jpg);
+    background-image: url(../images/headerMyLibrary/headerLibraryBg-desk-min.jpg);
     @include retina {
-      background-image: url(../images/headerMylibrary/headerLibraryBg-desk-2x-min.jpg);
+      background-image: url(../images/headerMyLibrary/headerLibraryBg-desk-2x-min.jpg);
     }
   }
 }
