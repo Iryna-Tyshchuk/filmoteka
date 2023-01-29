@@ -16,10 +16,10 @@ if (localstorage.load('user')) {
 }
 
 (function checkAutorization() {
-  
+
     libraryBtnEl.addEventListener('click', event => {
       const savedUser = localstorage.load('user');
-      
+
       if (!savedUser) {
         event.preventDefault();
         Notify.failure('You should login to access the library', {
