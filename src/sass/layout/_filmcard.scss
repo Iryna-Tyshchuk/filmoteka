@@ -40,8 +40,13 @@
 
 .film__list-img {
   border-radius: 5px;
+
+  @include tablet {
+      height: 455px;
+    }
+
   @include desktop {
-    min-height: 574px;
+      height: 574px;
   }
 }
 
@@ -76,7 +81,10 @@
 }
 
 .film__title.about .vote {
-  padding: 3px 12px;
+  padding: 1px 10px;
+  @include desktop {
+      padding: 3px 12px;
+    }
   width: 40px;
   height: 20px;
   font-size: 12px;
