@@ -18,5 +18,15 @@
 }
 
 .container_library {
+  min-height: 400px;
+    @include tablet {
     min-height: 22vw;
+  }
+}
+
+.container_main {
+  min-height: 800px;
+  @include tablet {
+    min-height: 30vw;
+  }
 }

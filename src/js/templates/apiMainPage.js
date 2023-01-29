@@ -41,6 +41,9 @@ const options = {
 };
 
 const pagination = new Pagination('pagination', options);
+const paginationEl = document.querySelector('#pagination');
+
+paginationEl.classList.add('is-none');
 
 try {
   formEl.addEventListener('submit', onSearchFormSubmit);
@@ -63,6 +66,7 @@ async function loadPopular() {
     
     createFilmCards(popularMovies, genres);
     Notiflix.Loading.remove();
+    paginationEl.classList.remove('is-none');
   } catch (error) {
     console.log(error);
   }
@@ -98,12 +102,10 @@ async function loadQuery() {
     document.querySelector('.tui-page-btn.tui-prev').textContent = `1`;  
     
     if (Number(pagination._getLastPage()) === 1) {
-      document.querySelector('#pagination').classList.add('is-none');
+      paginationEl.classList.add('is-none');
     } else {
-      document.querySelector('#pagination').classList.remove('is-none');
-      pagination._paginate();
+      paginationEl.classList.remove('is-none');
     }
-
     Notiflix.Loading.remove();
   } catch (error) {
     console.log(error);
